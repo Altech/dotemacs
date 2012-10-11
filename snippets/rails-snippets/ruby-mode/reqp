@@ -1,0 +1,3 @@
+#name : see request.request_parameters
+# --
+render :text => "#{request.request_parameters}" and return

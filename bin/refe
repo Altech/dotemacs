@@ -1,0 +1,2 @@
+#!/bin/sh
+ruby -Ke -I ~/.emacs.d/ruby-refm-1.9.2/bitclust/lib ~/.emacs.d/ruby-refm-1.9.2/bitclust/bin/refe.rb -d ~/.emacs.d/ruby-refm-1.9.2/db-1_9_2 $* | iconv -f euc-jp -t utf-8 | cat
