@@ -39,7 +39,6 @@
 (global-auto-complete-mode t)
 (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
 (define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
-;; (setq ac-modes (cons 'js-mode ac-modes))
 
 
 ;;; yasnippet

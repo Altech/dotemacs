@@ -12,3 +12,12 @@
 ;; highlight cursor-line
 (setq hl-line-face 'underline)
 (global-hl-line-mode)
+
+
+;; fix on terminal
+(global-set-key (kbd "TAB") 'yas-expand)
+(setq yas/prompt-functions '(yas/dropdown-prompt yas/x-prompt))
+(add-hook 'ruby-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "TAB") 'yas-expand-from-trigger-key)
+	    ))

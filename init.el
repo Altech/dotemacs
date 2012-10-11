@@ -2,4 +2,4 @@
 (init-loader-load "~/.emacs.d/inits/")
 
 ;; for debug
-(cd "~/.emacs.d/inits") 
+;; (cd "~/.emacs.d/inits")
