@@ -1,6 +1,6 @@
 This is my Emacs(Ver.23) configuration.
 
-Entry point is init.el. It uses `init-loader-x` and loads elisp under inits directory. Everything else are third party library.
+The entry point is the file named "init.el". It uses `init-loader-x` and loads elisps under "inits" directory. Everything else are third party libraries.
 
     git clone https://github.com/Altech/emacs-config.git ~/.emacs.d
 
