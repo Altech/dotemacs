@@ -45,19 +45,32 @@
 (global-set-key (kbd "<f11>") 'ns-toggle-fullscreen)
 
 
+
+(require 'cl)
+(defun close-buffers-without-default ()
+  (interactive)
+  (loop for buffer being the buffers
+	do ((lambda (buffer)
+	      (if (and (not (string= (buffer-name buffer) "*GNU Emacs*"))
+		       (not (string= (buffer-name buffer) "*scratch*"))
+		       (not (string= (buffer-name buffer) "*Messages*")))
+		  (kill-buffer buffer))) buffer)))
+
+
 (defun close-on-mac ()
   (interactive)
+  (close-buffers-without-default)
   (switch-to-buffer "*GNU Emacs*")
   (ns-do-hide-emacs)
   )
 
 
 ;; Oz
-(add-to-list 'load-path "/Applications/Mozart.app/Contents/Resources/share/elisp")
-(require 'oz)
-;; Cursor move (paragraph) for Oz ;; for MacBookPro
-(global-set-key (kbd "M-[") 'backward-paragraph)
-(global-set-key (kbd "M-]") 'forward-paragraph)
+;; (add-to-list 'load-path "/Applications/Mozart.app/Contents/Resources/share/elisp")
+;; (require 'oz)
+;; ;; Cursor move (paragraph) for Oz ;; for MacBookPro
+;; (global-set-key (kbd "M-[") 'backward-paragraph)
+;; (global-set-key (kbd "M-]") 'forward-paragraph)
 
 
 ;; hide at start
