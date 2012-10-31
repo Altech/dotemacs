@@ -61,6 +61,7 @@
   (interactive)
   (close-buffers-without-default)
   (switch-to-buffer "*GNU Emacs*")
+  (delete-other-windows)
   (ns-do-hide-emacs)
   )
 
