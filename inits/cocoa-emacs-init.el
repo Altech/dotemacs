@@ -75,3 +75,15 @@
 
 ;; hide at start
 (add-hook 'emacs-startup-hook 'iconify-frame)
+
+
+;; Convert utf-16lc -> utf-8
+(require 'ucs-normalize)
+(prefer-coding-system 'utf-8-hfs)
+(setq file-name-coding-system 'utf-8-hfs)
+(setq locale-coding-system 'utf-8-hfs)
+(defun ucs-normalize-NFC-buffer ()
+  (interactive)
+  (ucs-normalize-NFC-region (point-min) (point-max))
+  )
+(global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer)
