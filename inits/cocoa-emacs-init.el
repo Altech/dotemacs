@@ -39,7 +39,7 @@
 
 ;; ** Other **
 ;; Kill and hide
-(if window-system (global-set-key (kbd "C-x C-c") 'close-on-mac))
+(global-set-key (kbd "C-x C-c") 'close-on-mac)
 (global-set-key (kbd "C-x C-d") 'save-buffers-kill-terminal)
 ;; fullscreen
 (global-set-key (kbd "<f11>") 'ns-toggle-fullscreen)
@@ -55,7 +55,6 @@
 		       (not (string= (buffer-name buffer) "*scratch*"))
 		       (not (string= (buffer-name buffer) "*Messages*")))
 		  (kill-buffer buffer))) buffer)))
-
 
 (defun close-on-mac ()
   (interactive)
