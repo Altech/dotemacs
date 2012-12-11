@@ -47,6 +47,8 @@
 (global-set-key (kbd "C-b") 'iswitchb-buffer)
 ;; Show buffer list which is easy to see
 (global-set-key (kbd "C-x C-b") 'bs-show)
+;; Remove mule toggle-input
+(global-unset-key (kbd "C-\\")) 
 
 
 (defun other-window-or-split ()
@@ -59,4 +61,5 @@
   (interactive)
   (revert-buffer nil t)
 )
+
 
