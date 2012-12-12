@@ -35,7 +35,7 @@
 (define-key ac-menu-map (kbd "C-p")         'ac-previous)
 (define-key ac-completing-map (kbd "<tab>") 'ac-complete)
 (define-key ac-completing-map (kbd "M-/")   'ac-stop)
-(define-key ac-completing-map (kbd "RET") nil)
+(define-key ac-completing-map (kbd "RET") nil) ;; and modified auto-complete-el for cocoa-emcas.
 (require 'auto-complete-config)
 (setq-default ac-sources (list
 			  ac-source-yasnippet
