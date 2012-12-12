@@ -1,0 +1,6 @@
+# name: collect do |...| ... end
+# key: collect
+# --
+collect do |${e}|
+  $0
+end

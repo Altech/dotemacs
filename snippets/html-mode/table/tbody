@@ -1,0 +1,6 @@
+# name: <tbody>...</tbody>
+# key: tbody
+# --
+<tbody$1>
+  $2
+</tbody>

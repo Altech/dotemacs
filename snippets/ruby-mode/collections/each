@@ -1,0 +1,6 @@
+# name: each do |i| ... end
+# key: each
+# --
+each do |${i}|
+  $0
+end
