@@ -6,7 +6,7 @@
     (setq truncate-lines t))
   (recenter))
 (setq-default truncate-partial-width-windows t)
-(setq-default truncate-lines nil)
+(setq-default truncate-lines t)
 ;; bar setting
 (if window-system (menu-bar-mode 1) (menu-bar-mode 0))
 (if window-system (tool-bar-mode 0))
@@ -26,7 +26,7 @@
 ;; [TODO]
 ;; ;; window switching (using shift-key)
 ;; (windmove-default-keybindings)
-;; ;; window switching (反対側のウィンドウに飛べる)
+;; ;; window switching (反対側のウィンドウに飛べる)
 ;; (setq windmove-wrap-around t)
 ;; alarm sign from sound to vision
 ;; (setq visible-bell t)
