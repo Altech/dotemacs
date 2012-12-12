@@ -1,6 +1,6 @@
 # name: each_value do |val| ... end
 # key: each_value
 # --
-each_value do |${val}|
+each_value do |${value}|
   $0
 end

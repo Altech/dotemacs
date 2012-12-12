@@ -1,6 +1,6 @@
 # name: each_index do |i| ... end
 # key: each_index
 # --
-each_index do |${i}|
+each_index do |${index}|
   $0
 end

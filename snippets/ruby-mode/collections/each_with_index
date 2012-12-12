@@ -1,6 +1,6 @@
 # name: each_with_index do |e,i| ... end
 # key: each_with_index
 # --
-each_with_index do |${e},${i}|
+each_with_index do |${element},${index}|
   $0
 end
