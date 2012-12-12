@@ -31,4 +31,3 @@
 (require 'rhtml-mode)
 ;; (lambda () (rinari-launch)))
 
-(yas/load-directory "~/.emacs.d/snippets/rails-snippets")
