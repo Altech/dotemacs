@@ -39,26 +39,51 @@
 
 ;; ** Other **
 ;; Kill and hide
-(if window-system (global-set-key (kbd "C-x C-c") 'close-on-mac))
+(global-set-key (kbd "C-x C-c") 'close-on-mac)
 (global-set-key (kbd "C-x C-d") 'save-buffers-kill-terminal)
 ;; fullscreen
 (global-set-key (kbd "<f11>") 'ns-toggle-fullscreen)
 
 
+
+(require 'cl)
+(defun close-buffers-without-default ()
+  (interactive)
+  (loop for buffer being the buffers
+	do ((lambda (buffer)
+	      (if (and (not (string= (buffer-name buffer) "*GNU Emacs*"))
+		       (not (string= (buffer-name buffer) "*scratch*"))
+		       (not (string= (buffer-name buffer) "*Messages*")))
+		  (kill-buffer buffer))) buffer)))
+
 (defun close-on-mac ()
   (interactive)
+  (close-buffers-without-default)
   (switch-to-buffer "*GNU Emacs*")
+  (delete-other-windows)
   (ns-do-hide-emacs)
   )
 
 
 ;; Oz
-(add-to-list 'load-path "/Applications/Mozart.app/Contents/Resources/share/elisp")
-(require 'oz)
-;; Cursor move (paragraph) for Oz ;; for MacBookPro
-(global-set-key (kbd "M-[") 'backward-paragraph)
-(global-set-key (kbd "M-]") 'forward-paragraph)
+;; (add-to-list 'load-path "/Applications/Mozart.app/Contents/Resources/share/elisp")
+;; (require 'oz)
+;; ;; Cursor move (paragraph) for Oz ;; for MacBookPro
+;; (global-set-key (kbd "M-[") 'backward-paragraph)
+;; (global-set-key (kbd "M-]") 'forward-paragraph)
 
 
 ;; hide at start
 (add-hook 'emacs-startup-hook 'iconify-frame)
+
+
+;; Convert utf-16lc -> utf-8
+(require 'ucs-normalize)
+(prefer-coding-system 'utf-8-hfs)
+(setq file-name-coding-system 'utf-8-hfs)
+(setq locale-coding-system 'utf-8-hfs)
+(defun ucs-normalize-NFC-buffer ()
+  (interactive)
+  (ucs-normalize-NFC-region (point-min) (point-max))
+  )
+(global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer)

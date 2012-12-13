@@ -10,6 +10,19 @@
 
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
                                      interpreter-mode-alist))
+
+
+
+(defun insert-block-params ()
+  (interactive)
+  (insert "||")
+  (forward-char -1))
+
+(defun insert-block-pair ()
+  (interactive)
+  (insert "{}")
+  (forward-char -1))
+
 ;; (autoload 'run-ruby "inf-ruby"
 ;;   "Run an inferior Ruby process")
 ;; (autoload 'inf-ruby-keys "inf-ruby"
@@ -17,7 +30,9 @@
 (add-hook 'ruby-mode-hook
           '(lambda ()
              ;; (inf-ruby-keys)
-	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)))
+	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
+	     (local-set-key (kbd "|") 'insert-block-params)
+	     (local-set-key (kbd "{") 'insert-block-pair)))
 
 
 
@@ -30,4 +45,4 @@
 (require 'rhtml-mode)
 ;; (lambda () (rinari-launch)))
 
-(yas/load-directory "~/.emacs.d/snippets/rails-snippets")
+

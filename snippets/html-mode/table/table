@@ -1,0 +1,6 @@
+# name: <table...>...</table>
+# key: table
+# --
+<table$1>
+  $0
+</table>
