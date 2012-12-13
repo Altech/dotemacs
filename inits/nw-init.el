@@ -3,15 +3,15 @@
 
 (add-hook 'rhtml-mode-hook
 	  (lambda ()
-	    (set-face-background 'erb-face nil)
+	    (set-face-background 'erb-face "black")
 	    (set-face-underline-p 'erb-face t)
-	    (set-face-background 'erb-exec-face nil)
+	    (set-face-background 'erb-exec-face "red")
 	    (set-face-underline-p 'erb-exec-face t)
 	    ))
 
 ;; highlight cursor-line
-(setq hl-line-face 'underline)
-(global-hl-line-mode)
+;; (setq hl-line-face 'underline)
+;; (global-hl-line-mode)
 
 
 ;; fix on terminal
