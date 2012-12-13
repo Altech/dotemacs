@@ -17,8 +17,7 @@
 (add-hook 'ruby-mode-hook
           '(lambda ()
              ;; (inf-ruby-keys)
-	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
-             ))
+	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)))
 
 
 
