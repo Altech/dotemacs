@@ -49,6 +49,9 @@
 (global-set-key (kbd "C-x C-b") 'bs-show)
 ;; Remove mule toggle-input
 (global-unset-key (kbd "C-\\")) 
+;; Anything
+(global-set-key (kbd "C-l C-y") 'anything-yasnippet-2) 
+(global-set-key (kbd "C-l C-;") 'anything-M-x) 
 
 
 (defun other-window-or-split ()

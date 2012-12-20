@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: File.expand_path(..,..)
+# key: File.expand_path
+# --
+File.expand_path(${1:relative_path}, ${2:base_dir})
