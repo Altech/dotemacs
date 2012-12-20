@@ -89,6 +89,14 @@
                                 (lambda (dummy)
                                   (kill-buffer-and-window))))))
 
+;;
 (defun anything-refe ()
   (interactive)
   (anything anything-c-source-refe))
+
+
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             ;; (inf-ruby-keys)
+	     (local-set-key (kbd "M-i") 'ruby-indent-command)
+             ))
