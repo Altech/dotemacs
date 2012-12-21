@@ -21,3 +21,6 @@
 	  (lambda ()
 	    (local-set-key (kbd "TAB") 'yas-expand-from-trigger-key)
 	    ))
+
+;; for magit
+(set-face-background 'magit-item-highlight "white")
