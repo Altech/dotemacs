@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: comment_memo
+# key: mem
+# --
+# [MEMO] ${1:comment}(`(format-time-string "%Y-%m-%d")`)

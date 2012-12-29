@@ -87,3 +87,7 @@
   (ucs-normalize-NFC-region (point-min) (point-max))
   )
 (global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer)
+
+
+;; rdefsx
+(setq rdefsx-ruby-command "/Users/Altech/.rvm/rubies/ruby-1.9.3-p286/bin/ruby")

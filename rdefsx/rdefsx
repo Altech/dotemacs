@@ -1,0 +1,387 @@
+#!/usr/bin/env ruby
+# rdefsx: extended rdefs
+#
+# A tool that extracts class, module and method definitions
+# from Ruby source code.
+#
+# Author: rubikitch <rubikitch __at__ ruby-lang.org>
+# Original Author: Minero Aoki <aamine __at__ loveruby.net>
+require 'optparse'
+require 'rbconfig'
+require 'pathname'
+
+Encoding.default_external = "ASCII-8BIT"
+class RDefsX
+  DEF_RE = /\A\s*(?:
+      def\s | class\s | module\s | include[\s\(] | extend[\s\(]
+    | alias(?:_\w+)?
+    | attr_reader[\s\(]
+    | attr_writer[\s\(]
+    | attr_accessor[\s\(]
+    | attr[\s\(]
+    | public[\s\(]
+    | private[\s\(]
+    | private_class_method[\s\(]
+    | public_class_method[\s\(]
+    | module_function[\s\(]
+    | protected[\s\(]
+    | def_delegators?[\s\(]
+    | .*Struct(?:\.|::)new[\s\(]
+    )/x
+
+  CLASS_METH_RE = /\A\s*(?:def|class|module)\s+(?:[^\(]+[:\.])?([^\s\(]+)/
+
+  module RDEFSXFile
+    def using_file(filename)
+      $stderr.puts "Using #{filename}"
+      filename
+    end
+
+    def open_RDEFSX(orig_argv, file="RDEFSX")
+      $> = open(using_file(file), "w")
+      $> << "# #{orig_argv.inspect}\n"
+    end
+
+    def find_RDEFSX(file="RDEFSX")
+      ascendeds = Pathname.pwd.enum_for(:ascend).to_a
+      ascendeds.pop
+      ascendeds.each do |dir|
+        rdefsx = dir + file
+        return using_file(rdefsx) if rdefsx.exist?
+      end
+      nil
+    end
+
+    def do_RDEFSX()
+      rdefsx = find_RDEFSX
+      if rdefsx
+        yield rdefsx
+      else
+        $stderr.puts "No RDEFSX file."
+        exit 2
+      end
+    end
+  end
+
+  class Maker
+    include RbConfig
+    include RDEFSXFile
+
+    def initialize(conf)
+      @conf = conf
+      @system_libs = []
+    end
+
+    def start
+      @update_rdefsx_system = false
+      do_main1
+      if @conf[:update_rdefsx_system]
+        @update_rdefsx_system = @conf[:update_rdefsx_system]
+        open_RDEFSX nil, "RDEFSX.system"
+        ARGV.replace @system_libs
+        do_main1
+      end
+    end
+
+    private
+    def do_main1
+      # rule out nonexistent files
+      ARGV.reject! {|file| ! File.exist?(file) }
+      f = Preprocessor.new(ARGF, @conf[:tab_width])
+      rdoc_lineno = nil
+      processed = ARGV.uniq
+      line = nil
+      print_line = lambda do |content|
+        f.register_line if CLASS_METH_RE === line
+        if !@conf[:extract_method] or line[CLASS_METH_RE,1] == @conf[:extract_method]
+          printf '%s:', f.path if @conf[:print_filename]
+          printf '%-6s', "#{rdoc_lineno || f.lineno}:" if @conf[:print_line_number]
+          print format_line(content, f.prefix(line), @conf[:print_prefix])
+        end
+        rdoc_lineno = nil
+      end
+
+      @system_libs = []
+      while line = f.gets
+        begin
+          if DEF_RE =~ line
+            print_line[getdef(line,f)]
+          elsif @conf[:additional_regexp] and  @conf[:additional_regexp] === line
+            print_line[line]
+          elsif @conf[:include_dependencies] and /require ["'](.+?)["']/ === line
+            basename = File.basename $1, ".rb"
+            lib = which_library $1
+            if add_library? lib, processed
+              $stderr.puts "Add #{lib}"
+              ARGV << lib
+              processed << lib
+            end
+          elsif /^\s*#/ =~ line
+            rdoc_lineno ||= f.lineno
+          else
+            rdoc_lineno = nil
+          end
+        rescue
+          $stderr.puts $!
+          $stderr.puts "Continuing..."
+        end
+      end
+    end
+
+    def add_library?(lib, processed)
+      if lib and /\.rb$/ === lib and not processed.include? lib
+        if lib.start_with?(CONFIG["rubylibprefix"])
+          @system_libs << lib
+          @update_rdefsx_system
+        else
+          true
+        end
+      end
+    end
+
+    # borrowed from devel/which
+    def which_library(lib)
+      unless lib.is_a? String
+        raise TypeError,
+        "wrong argument type #{lib.type} (expected String)"
+      end
+      ext = ["rb", CONFIG["DLEXT"], CONFIG["DLEXT2"]]
+      ext.map!{|i| i.length > 0 ? ".#{i}" : nil}
+      ext.compact!
+      ext.push("")
+
+      at = with = nil
+      at = $:.find{|path|
+        file = "#{File::expand_path(path)}/#{lib}"
+
+        begin
+          with = ext.find{|i|
+            test(?f, file+i) && test(?r, file+i)
+          }
+        rescue
+          next
+        end
+      }
+      "#{at}/#{lib}#{with}" if at
+    end
+
+    def getdef(str, f)
+      until balanced?(str)
+        str << f.gets
+      end
+      str.gsub(/[\r\n]\s+/, ' ')
+    end
+
+    def balanced?(str)
+      str.count('(') == str.count(')')
+    end
+
+    def format_line(line, prefix, print_prefix)
+      if print_prefix and !prefix.empty?
+        prefix + " / " + line.lstrip
+      else
+        line
+      end
+    end
+  end
+
+
+  class Preprocessor
+    def initialize(f, tab_width)
+      @f = f
+      @tab_width = tab_width
+      @hierarchy = Array.new(7)
+      @line = nil
+    end
+
+    def gets
+      line = @f.gets
+      if /\A=begin\s/ === line
+        while line = @f.gets
+          break if /\A=end\s/ === line
+        end
+        line = @f.gets
+      end
+      @line = line
+    end
+
+    def indent(line)
+      line[/^ */].length
+    end
+    private :indent
+
+    def register_line
+      line = @line.gsub(/\t/, ' ' * @tab_width)
+      indent = indent(line)
+      @hierarchy[indent] = line.strip
+      @hierarchy.fill(nil, indent+1)
+    end
+
+    def prefix(line)
+      hierarchy = @hierarchy.dup.fill(nil, indent(line))
+      hierarchy.compact.map{|l| l.sub(/ *#.+$/, '').gsub(/ +/, ' ') }.join(" / ")
+    end
+
+    def lineno
+      @f.file.lineno
+    end
+
+    def path
+      @f.path
+    end
+  end
+
+  include RDEFSXFile
+  def parse_options!(orig_argv)
+    conf = {
+      :action => Maker,
+      :print_line_number => false,
+      :print_filename => false,
+      :print_prefix => false,
+      :additional_regexp => nil,
+      :tab_width => 8,
+      :include_dependencies => false,
+      :exclude_file => nil,
+      :extract_method => nil,
+      :update_rdefsx_system => false,
+    }
+    parser = OptionParser.new
+    parser.banner = "#{File.basename $0} [options] file..."
+    parser.separator "Main Actions:"
+    parser.on('-a', '--all', 'Output RDEFSX file, including -nHPd --dev', ' --rdefsx --update-rdefsx-system options.') {|x|
+      conf[:print_line_number] = true
+      conf[:print_filename] = true
+      conf[:print_prefix] = true
+      conf[:include_dependencies] = true
+      conf[:update_rdefsx_system] = true unless find_RDEFSX("RDEFSX.system")
+      $:.unshift "lib", "bin"
+      open_RDEFSX orig_argv
+    }
+    u_proc = proc do |x|
+      do_RDEFSX do |rdefsx|
+        Dir.chdir rdefsx.dirname
+        new_argv = open(rdefsx){|f| eval(f.gets[1..-1]) }
+        ARGV.replace new_argv
+        return parse_options!(ARGV.clone)
+      end
+    end
+    parser.on('-u', '--update', 'Update RDEFSX file.', &u_proc)
+    parser.on('-U', '--update-all', 'Update RDEFSX and RDEFSX.system file.') {|x|
+      File.unlink find_RDEFSX("RDEFSX.system") rescue nil
+      u_proc[x]
+    }
+    parser.on('-s', '--show', 'Show RDEFSX data.') {|x|
+      conf[:action] = Searcher
+    }
+
+    parser.separator "Show Options:"
+    parser.on('-x FILE', '--exclude FILE', 'Exclude FILE from RDEFSX data.') {|x|
+      conf[:exclude_file] = x
+    }
+    parser.on('-m METHOD', '--method METHOD', 'Print only METHOD (class/module) definition.') {|x|
+      conf[:extract_method] = x
+    }
+    parser.separator ""
+    parser.separator "Output Options:"
+    parser.on('-n', '--lineno', 'Prints line number.') {
+      conf[:print_line_number] = true
+    }
+    parser.on('-H', '--with-filename', 'Prints filename.'){
+      conf[:print_filename] = true
+    }
+    parser.on('-P', '--with-prefix', 'Prints prefix.'){
+      conf[:print_prefix] = true
+    }
+    parser.on('-r REGEXP', '--regexp=REGEXP', 'Print lines matching REGEXP additionally.') {|x|
+      conf[:additional_regexp] = Regexp.new(x)
+    }
+    parser.on('-t TAB-WIDTH', '--tab-width=TAB-WIDTH', 'Tab width.') {|x|
+      conf[:tab_width] = x.to_i
+    }
+
+    parser.separator ""
+    parser.separator "File Options:"
+    parser.on('-d', '--dependency', 'Include dependencies') {|x|
+      conf[:include_dependencies] = true
+    }
+    parser.on('--dev', 'Add this project\'s bin/ and lib/ to $LOAD_PATH.') {|x|
+      $:.unshift "lib", "bin"
+    }
+    parser.on('--rdefsx', 'Output RDEFSX file.') {|x|
+      open_RDEFSX orig_argv
+    }
+    parser.on('--update-rdefsx-system', 'Create RDEFSX.system when it does not exist') {|x|
+      conf[:update_rdefsx_system] = true unless find_RDEFSX("RDEFSX.system")
+    }
+    begin
+      parser.parse!
+    rescue OptionParser::ParseError => err
+      $stderr.puts err.message
+      exit 1
+    end
+    conf
+  end
+
+  class Searcher
+    include RDEFSXFile
+    def initialize(conf)
+      @conf = conf
+      @rdefsx = find_RDEFSX
+      @rdefsx_system = find_RDEFSX "RDEFSX.system"
+    end
+
+    def start
+      if @rdefsx
+        open(@rdefsx) {|f| process_file f}
+        open(@rdefsx_system) {|f| process_file f} if @rdefsx_system and @conf[:extract_method]
+      else
+        Maker.new(@conf.merge(
+            :print_line_number => true,
+            :print_filename => true,
+            :print_prefix => true)).start
+      end
+    end
+
+    private
+    def dir_prefix
+      @rdefsx.dirname.relative_path_from(Pathname.pwd)
+    end
+
+    def method_match?(meth)
+      # HACK: workaround for bug in ruby-mode.el
+      # symbol-at-point cannot extract ! methods. So I search them too.
+      @em_bang ||= @conf[:extract_method] + "!"
+      [@conf[:extract_method], @em_bang].include? meth      
+    end
+
+    def exclude?(line)
+      exclude_file = Pathname(@conf[:exclude_file]).expand_path.relative_path_from(@rdefsx.dirname).to_s rescue nil
+      exclude_file and line.start_with? "#{exclude_file}:"
+    end
+
+    def get_method(line)
+      content = line.split(/:\d+:/)[1]
+      lastline = content[/^.+\/(.+)$/, 1] || content
+      lastline[CLASS_METH_RE, 1]
+    end
+
+    def process_file(f)
+      f.gets
+      f.each do |line|
+        next if exclude? line
+        next if @conf[:extract_method] and not method_match? get_method(line)
+        puts (line[0] == ?/) ? line : "#{dir_prefix}/#{line}" # "
+      end
+    end
+  end
+
+  def start
+    conf = parse_options! ARGV.clone
+    conf[:action].new(conf).start
+  end
+end
+
+RDefsX.new.start if __FILE__==$0
+
+
+

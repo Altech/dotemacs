@@ -46,3 +46,10 @@
 ;; (lambda () (rinari-launch)))
 
 
+ ;; (add-to-list 'ruby-encoding-map '(utf-8-hfs . utf-8))
+ (add-to-list 'ruby-encoding-map '(undecided . utf-8))
+
+;; rdefsx
+(require 'rdefsx)
+(define-key ruby-mode-map (kbd "C-l C-r") 'anything-rdefsx)
+(rdefsx-auto-update-mode 1)
