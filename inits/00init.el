@@ -31,13 +31,14 @@
 
 ;; exec path
 (defvar my-exec-path (list
-              "/usr/sbin"
-              "/bin"
-              "/usr/bin"
-              "/opt/local/bin"
-              "/usr/local/bin"
-              (expand-file-name "~/.emacs.d/bin")
-	      ))
+		      "/usr/sbin"
+		      "/bin"
+		      "/usr/bin"
+		      "/opt/local/bin"
+		      "/usr/local/bin"
+		      (expand-file-name "~/.emacs.d/bin")
+		      "/Users/Altech/.rvm/gems/ruby-1.9.3-p286/bin"
+		      ))
 (dolist (dir my-exec-path)
   (when (and (file-exists-p dir) (not (member dir exec-path)))
     (setenv "PATH" (concat dir ":" (getenv "PATH")))
