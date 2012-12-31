@@ -51,7 +51,12 @@
 (global-unset-key (kbd "C-\\")) 
 ;; Anything
 (global-set-key (kbd "C-l C-y") 'anything-yasnippet-2) 
-(global-set-key (kbd "C-l C-;") 'anything-M-x) 
+(global-set-key (kbd "C-l C-;") 'anything-M-x)
+;; Scroll
+(global-set-key (kbd "<wheel-up>") 'scroll-down-with-lines)
+(global-set-key (kbd "<wheel-down>") 'scroll-up-with-lines)
+(global-set-key (kbd "<up>") 'scroll-down-with-lines)
+(global-set-key (kbd "<down>") 'scroll-up-with-lines)
 
 
 (defun other-window-or-split ()
@@ -65,4 +70,14 @@
   (revert-buffer nil t)
 )
 
-
+;; wheel scroll
+(defun scroll-down-with-lines ()
+  ""
+  (interactive)
+  (scroll-down 1)
+  )
+(defun scroll-up-with-lines ()
+   ""
+   (interactive)
+   (scroll-up 1)
+)
