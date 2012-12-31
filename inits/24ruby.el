@@ -32,7 +32,9 @@
              ;; (inf-ruby-keys)
 	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
 	     (local-set-key (kbd "|") 'insert-block-params)
-	     (local-set-key (kbd "{") 'insert-block-pair)))
+	     (local-set-key (kbd "{") 'insert-block-pair)
+	     (local-set-key (kbd "C-;") 'anything-refe)
+	     (local-set-key (kbd "M-i") 'ruby-indent-command)))
 
 
 
@@ -53,3 +55,24 @@
 (require 'rdefsx)
 (define-key ruby-mode-map (kbd "C-l C-r") 'anything-rdefsx)
 (rdefsx-auto-update-mode 1)
+
+
+;; refe
+(defvar anything-c-source-refe
+      `((name . "refe")
+        (candidates-file . "~/.emacs.d/ruby-refm-1.9.2/bitclust/refe.index")    
+        (action ("Show" . anything-refe-action))))
+
+(defun anything-refe-action (word)
+  (let ((buf-name (concat "*refe:" word "*")))
+    (with-current-buffer (get-buffer-create buf-name)
+      (call-process "refe" nil t t word)
+      (goto-char (point-min))
+      (my-view-buffer-other-window buf-name t
+                                (lambda (dummy)
+                                  (kill-buffer-and-window))))))
+
+(defun anything-refe ()
+  (interactive)
+  (anything anything-c-source-refe))
+

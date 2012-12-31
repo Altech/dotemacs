@@ -59,9 +59,6 @@
     (view-mode-enter (and return-to (cons (selected-window) return-to))
 		     exit-action)))
 
-(add-hook 'ruby-mode-hook
-  (lambda()
-    (define-key ruby-mode-map (kbd "C-;") 'anything-refe)))
 
 
 
@@ -74,29 +71,5 @@
 
 
 
-;; *refe*
-(defvar anything-c-source-refe
-      `((name . "refe")
-        (candidates-file . "~/.emacs.d/ruby-refm-1.9.2/bitclust/refe.index")    
-        (action ("Show" . anything-refe-action))))
-
-(defun anything-refe-action (word)
-  (let ((buf-name (concat "*refe:" word "*")))
-    (with-current-buffer (get-buffer-create buf-name)
-      (call-process "refe" nil t t word)
-      (goto-char (point-min))
-      (my-view-buffer-other-window buf-name t
-                                (lambda (dummy)
-                                  (kill-buffer-and-window))))))
-
-;;
-(defun anything-refe ()
-  (interactive)
-  (anything anything-c-source-refe))
 
 
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             ;; (inf-ruby-keys)
-	     (local-set-key (kbd "M-i") 'ruby-indent-command)
-             ))
