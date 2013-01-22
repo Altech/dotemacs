@@ -62,6 +62,7 @@
   (switch-to-buffer "*GNU Emacs*")
   (delete-other-windows)
   (delete-other-frames)
+  (beginning-of-buffer)
   (ns-do-hide-emacs)
   )
 
