@@ -2,7 +2,7 @@
 ;; basic face
 (set-face-attribute 'default nil
 		    :family "menlo";;"monaco"
-		    :height 110)
+		    :height 110) ;;110
 (set-fontset-font
  (frame-parameter nil 'font)
  'japanese-jisx0208
@@ -26,15 +26,14 @@
 	("-cdac$" . 1.0)))
 (set-face-attribute 'variable-pitch nil
                     :family "Arial"
-                    :height 130)
+                    :height 130) ;; 130 markdown/org // 200
 ;; edit face
 (dolist (mode-hook (list 'org-mode-hook 'markdown-mode-hook))
   (add-hook mode-hook
 	    '(lambda()
 	       (buffer-face-set 'variable-pitch)
-	       (setq line-spacing 0.4)
+	       (setq line-spacing 0.8) ;;0.4
 	       (setq truncate-lines nil))))
-
 
 
 ;; ** Other **
@@ -64,7 +63,8 @@
   (delete-other-frames)
   (beginning-of-buffer)
   (ns-do-hide-emacs)
-  )
+  (if (and (> (frame-width) 175) (> (frame-height) 60))
+      (ns-toggle-fullscreen)))
 
 
 ;; Oz
@@ -80,6 +80,7 @@
 
 
 ;; Convert utf-16lc -> utf-8
+;; [TODO] Remove(this code require revert-buffer.)
 (require 'ucs-normalize)
 (prefer-coding-system 'utf-8-hfs)
 (setq file-name-coding-system 'utf-8-hfs)
@@ -93,3 +94,5 @@
 
 ;; rdefsx
 (setq rdefsx-ruby-command "/Users/Altech/.rvm/rubies/ruby-1.9.3-p286/bin/ruby")
+
+
