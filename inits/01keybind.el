@@ -1,5 +1,5 @@
-;; Perefix
-(global-unset-key (kbd "C-l")) 
+;; perefix
+(global-unset-key (kbd "C-u")) ;; Utility
 ;; Cursor move (paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
@@ -38,11 +38,13 @@
 (global-set-key (kbd "<f8>") 'eshell)
 ;; Reload
 (global-set-key (kbd "<f5>") 'revert-buffer-force)
-;; Recenter
-(global-set-key (kbd "C-l C-l") 'recenter-top-bottom)
+;; ;; Recenter
+;; (global-set-key (kbd "C-l") 'recenter-top-bottom)
 ;; Replace
-(global-set-key (kbd "C-l r") 'query-replace)
-(global-set-key (kbd "C-l s") 'query-replace-regexp)
+(global-set-key (kbd "C-u C-s") 'query-replace)
+(global-set-key (kbd "C-u s`") 'query-replace)
+(global-set-key (kbd "C-u C-r") 'query-replace-regexp)
+(global-set-key (kbd "C-u r") 'query-replace-regexp)
 ;; Switch buffer
 (global-set-key (kbd "C-b") 'iswitchb-buffer)
 ;; Show buffer list which is easy to see
@@ -50,13 +52,17 @@
 ;; Remove mule toggle-input
 (global-unset-key (kbd "C-\\")) 
 ;; Anything
-(global-set-key (kbd "C-l C-y") 'anything-yasnippet-2) 
-(global-set-key (kbd "C-l C-;") 'anything-M-x)
+(global-set-key (kbd "M-y") 'anything-yasnippet-2) 
+(global-set-key (kbd "M-x") 'anything-M-x)
 ;; Scroll
 (global-set-key (kbd "<wheel-up>") 'scroll-down-with-lines)
 (global-set-key (kbd "<wheel-down>") 'scroll-up-with-lines)
 (global-set-key (kbd "<up>") 'scroll-down-with-lines)
 (global-set-key (kbd "<down>") 'scroll-up-with-lines)
+;; Git
+(global-unset-key (kbd "M-l"))
+(global-set-key (kbd "M-l M-s") 'magit-status)
+(global-set-key (kbd "M-l M-b") 'magit-branch-manager)
 
 
 (defun other-window-or-split ()

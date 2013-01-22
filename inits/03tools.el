@@ -1,7 +1,6 @@
 ;; anything
 (require 'anything-startup)
 (setq migemo-isearch-min-length 2)
-(global-set-key (kbd "C-;") 'anything)
 (anything-read-string-mode 0) ;; for ido-mode [TODO]
 ;; tramp
 (require 'tramp "~/.emacs.d/tramp/tramp")
