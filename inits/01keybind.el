@@ -41,6 +41,7 @@
 ;; ;; Recenter
 ;; (global-set-key (kbd "C-l") 'recenter-top-bottom)
 ;; Replace
+(global-unset-key (kbd "M-%"))
 (global-set-key (kbd "C-u C-s") 'query-replace)
 (global-set-key (kbd "C-u s`") 'query-replace)
 (global-set-key (kbd "C-u C-r") 'query-replace-regexp)
@@ -64,6 +65,7 @@
 (global-unset-key (kbd "M-l"))
 (global-set-key (kbd "M-l M-s") 'magit-status)
 (global-set-key (kbd "M-l M-b") 'magit-branch-manager)
+(global-set-key (kbd "M-l M-l") 'magit-log)
 
 
 (defun other-window-or-split ()
