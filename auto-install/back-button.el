@@ -443,39 +443,40 @@ The format for key sequences is as defined by `kbd'."
 
 ;;; toolbar
 
-(when back-button-show-toolbar-buttons
+(if tool-bar-mode
+    (when back-button-show-toolbar-buttons
 
-  (define-key-after tool-bar-map [separator-backb] menu-bar-separator)
+      (define-key-after tool-bar-map [separator-backb] menu-bar-separator)
 
-  (tool-bar-add-item "left-arrow"
-                     'back-button-global-backward
-                     'back-button
-                     :label "Back By Mark"
-                     :visible '(and back-button-mode back-button-show-toolbar-buttons))
-                     ;; todo why is this not reliable?
-                     ;; :enable '(and (not (eq back-button-global-disable-direction 'back))
-                     ;;               (> (length global-mark-ring) 0)))
+      (tool-bar-add-item "left-arrow"
+                         'back-button-global-backward
+                         'back-button
+                         :label "Back By Mark"
+                         :visible '(and back-button-mode back-button-show-toolbar-buttons))
+      ;; todo why is this not reliable?
+      ;; :enable '(and (not (eq back-button-global-disable-direction 'back))
+      ;;               (> (length global-mark-ring) 0)))
 
-  (tool-bar-add-item "mpc/add"
-                     'back-button-push-mark-local-and-global
-                     'back-button-push
-                     :label "push Mark"
-                     :visible '(and back-button-mode back-button-show-toolbar-buttons))
+      (tool-bar-add-item "mpc/add"
+                         'back-button-push-mark-local-and-global
+                         'back-button-push
+                         :label "push Mark"
+                         :visible '(and back-button-mode back-button-show-toolbar-buttons))
 
-  (tool-bar-add-item "right-arrow"
-                     'back-button-global-forward
-                     'forward-button
-                     :label "Forward By Mark"
-                     :visible '(and back-button-mode back-button-show-toolbar-buttons))
-                     ;; todo why is this not reliable?
-                     ;; :enable '(and (not (eq back-button-global-disable-direction 'forward))
-                     ;;               (> (length global-mark-ring) 0)
-                     ;;               this-command
-                     ;;               (memq this-command back-button-commands)))
+      (tool-bar-add-item "right-arrow"
+                         'back-button-global-forward
+                         'forward-button
+                         :label "Forward By Mark"
+                         :visible '(and back-button-mode back-button-show-toolbar-buttons))
+      ;; todo why is this not reliable?
+      ;; :enable '(and (not (eq back-button-global-disable-direction 'forward))
+      ;;               (> (length global-mark-ring) 0)
+      ;;               this-command
+      ;;               (memq this-command back-button-commands)))
 
-  ;; Note, this seems to not work on some platforms, eg Cocoa
-  (define-key global-map (kbd "<tool-bar> <S-back-button>")    'back-button-local-backward)
-  (define-key global-map (kbd "<tool-bar> <S-forward-button>") 'back-button-local-forward))
+      ;; Note, this seems to not work on some platforms, eg Cocoa
+      (define-key global-map (kbd "<tool-bar> <S-back-button>")    'back-button-local-backward)
+      (define-key global-map (kbd "<tool-bar> <S-forward-button>") 'back-button-local-forward)))
 
 ;;; lighter
 

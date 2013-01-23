@@ -54,7 +54,9 @@
 ;; rdefsx
 (require 'rdefsx)
 (define-key ruby-mode-map (kbd "C-l C-r") 'anything-rdefsx)
-(rdefsx-auto-update-mode 1)
+(if tool-bar-mode
+    (rdefsx-auto-update-mode 1)
+  )
 
 
 ;; refe
