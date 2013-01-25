@@ -101,14 +101,15 @@
              (run-with-idle-timer highlight-symbol-idle-delay t
                                   'highlight-symbol-temp-highlight))))
 
-(defcustom highlight-symbol-idle-delay 1.5
-  "*Number of seconds of idle time before highlighting the current symbol.
-If this variable is set to 0, no idle time is required.
-Changing this does not take effect until `highlight-symbol-mode' has been
-disabled for all buffers."
-  :type 'number
-  :set 'highlight-symbol-update-timer
-  :group 'highlight-symbol)
+(defvar highlight-symbol-idle-delay 1.5)
+;; (defcustom highlight-symbol-idle-delay 1.5
+;;   "*Number of seconds of idle time before highlighting the current symbol.
+;; If this variable is set to 0, no idle time is required.
+;; Changing this does not take effect until `highlight-symbol-mode' has been
+;; disabled for all buffers."
+;;   :type 'number
+;;   :set 'highlight-symbol-update-timer
+;;   :group 'highlight-symbol)
 
 (defcustom highlight-symbol-colors
   '("yellow" "DeepPink" "cyan" "MediumPurple1" "SpringGreen1"
