@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: article
+# key: article
+# --
+<article${1:}>
+${2:content}
+</article>
