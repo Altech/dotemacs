@@ -67,6 +67,9 @@
 (global-set-key (kbd "M-l M-s") 'magit-status)
 (global-set-key (kbd "M-l M-b") 'magit-branch-manager)
 (global-set-key (kbd "M-l M-l") 'magit-log)
+;; Hihglight
+(global-set-key (kbd "C-u") 'highlight-symbol-at-point)
+
 
 
 (defun other-window-or-split ()
