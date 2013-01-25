@@ -77,3 +77,7 @@
     (save-buffer)
     (server-edit)))
 (global-set-key (kbd "M-RET") 'quit-editing)
+
+;; highlight symbol
+(require 'highlight-symbol)
+
