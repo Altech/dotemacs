@@ -98,3 +98,26 @@
           (rename-buffer new-name)
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
+
+;; cooperate with tmux 
+(require 'emamux)
+
+(defun tmux-paste ()
+  (interactive)
+  (let ((tmpfile (make-temp-file "tmux-paste-"))) ; 一時ファイル作成
+    (emamux:tmux-run-command (concat "save-buffer " tmpfile)) ; ペーストバッファを一時ファイルに書き込む
+    (insert-file tmpfile)    ; 一時ファイルの内容をバッファに挿入
+    (delete-file tmpfile))   ; 一時ファイルを削除
+  (exchange-point-and-mark)) ; 末尾までカーソルを移動
+
+(defun tmux-copy ()
+  (interactive)
+  (progn
+    (kill-ring-save (region-beginning) (region-end))
+    (emamux:copy-kill-ring 0)
+    )
+  )
+
+(global-set-key (kbd "C-\\") 'emamux:send-command)
+(global-set-key (kbd "C-]")     'tmux-paste)
+(global-set-key (kbd "M-u M-w") 'tmux-copy)
