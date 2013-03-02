@@ -52,7 +52,7 @@
 ;; Show buffer list which is easy to see
 (global-set-key (kbd "C-x C-b") 'bs-show)
 ;; Show buffer list
-(global-set-key (kbd "C-x C-l") 'list-buffers)
+(global-set-key (kbd "C-x C-l") 'list-buffers-and-switch)
 ;; Remove mule toggle-input
 (global-unset-key (kbd "C-\\")) 
 ;; Anything
@@ -109,3 +109,9 @@
     (save-buffer)
     )
   )
+
+(defun list-buffers-and-switch ()
+  (interactive)
+  (if (get-buffer "*Buffer List*")
+       (switch-to-buffer "*Buffer List*")
+       (list-buffers)))
