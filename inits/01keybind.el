@@ -1,6 +1,8 @@
 ;; perefix
 (global-unset-key (kbd "C-u")) ;; Utility
 (global-unset-key (kbd "M-u")) ;; Utility
+;; Save buffer
+(global-set-key (kbd "C-x C-s") 'save-buffer-with-mkdir)
 ;; Cursor move (paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
@@ -44,9 +46,7 @@
 ;; Replace
 (global-unset-key (kbd "M-%"))
 (global-set-key (kbd "M-u M-r") 'query-replace)
-(global-set-key (kbd "M-u r") 'query-replace)
 (global-set-key (kbd "M-u M-s") 'query-replace-regexp)
-(global-set-key (kbd "M-u s") 'query-replace-regexp)
 ;; Switch buffer
 (global-set-key (kbd "C-b") 'iswitchb-buffer)
 ;; Show buffer list which is easy to see
@@ -94,3 +94,16 @@
    (interactive)
    (scroll-up 1)
 )
+
+
+(defun save-buffer-with-mkdir ()
+  (interactive)
+  (progn
+    (when buffer-file-name
+      (let ((dir (file-name-directory buffer-file-name)))
+	(when (and (not (file-exists-p dir))
+		   (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
+	  (make-directory dir t))))
+    (save-buffer)
+    )
+  )
