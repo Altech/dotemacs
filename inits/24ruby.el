@@ -53,7 +53,7 @@
 
 ;; rdefsx
 (require 'rdefsx)
-(define-key ruby-mode-map (kbd "M-u M-r") 'anything-rdefsx)
+(define-key ruby-mode-map (kbd "M-u r") 'anything-rdefsx)
 (if tool-bar-mode
     (rdefsx-auto-update-mode 1)
   )

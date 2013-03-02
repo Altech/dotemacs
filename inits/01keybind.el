@@ -51,6 +51,8 @@
 (global-set-key (kbd "C-b") 'iswitchb-buffer)
 ;; Show buffer list which is easy to see
 (global-set-key (kbd "C-x C-b") 'bs-show)
+;; Show buffer list
+(global-set-key (kbd "C-x C-l") 'list-buffers)
 ;; Remove mule toggle-input
 (global-unset-key (kbd "C-\\")) 
 ;; Anything
