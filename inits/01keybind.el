@@ -1,8 +1,10 @@
 ;; perefix
-(global-unset-key (kbd "C-u")) ;; Utility
+;; (global-unset-key (kbd "C-u")) ;; Utility
 (global-unset-key (kbd "M-u")) ;; Utility
 ;; Save buffer
 (global-set-key (kbd "C-x C-s") 'save-buffer-with-mkdir)
+;; Kill buffer
+(global-set-key (kbd "C-x K") 'kill-this-buffer)
 ;; Cursor move (paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
@@ -36,7 +38,8 @@
 ;; Change window size
 (global-set-key (kbd "C-]") 'enlarge-window-horizontally)
 ;; Find file
-;; (global-set-key (kbd "C-x C-f") 'anything-find-files)
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-x f") 'ido-find-file-from-home)
 ;; Eshell
 (global-set-key (kbd "<f8>") 'eshell)
 ;; Reload
@@ -115,3 +118,8 @@
   (if (get-buffer "*Buffer List*")
        (switch-to-buffer "*Buffer List*")
        (list-buffers)))
+
+(defun ido-find-file-from-home ()
+  (interactive)
+  (ido-find-file-in-dir "~"))
+
