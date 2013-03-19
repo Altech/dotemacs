@@ -121,3 +121,8 @@
 (global-set-key (kbd "C-\\") 'emamux:send-command)
 (global-set-key (kbd "C-]")     'tmux-paste)
 (global-set-key (kbd "M-u M-w") 'tmux-copy)
+
+;; layout
+(require 'rotate)
+;; (global-set-key (kbd "C-t") 'rotate-layout)
+(global-set-key (kbd "M-t") 'rotate-window)
