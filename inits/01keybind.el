@@ -74,7 +74,8 @@
 (global-set-key (kbd "M-l M-l") 'magit-log)
 ;; Hihglight
 (global-set-key (kbd "C-u") 'highlight-symbol-at-point)
-
+;; GTD
+(global-set-key (kbd "<f7>") 'org-remember)
 
 
 (defun other-window-or-split ()

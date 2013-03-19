@@ -1,13 +1,13 @@
 (require 'org)
 (defun org-insert-upheading (arg)
-  "1レベル上の見出しを入力する。"
+  "1レベル上の見出しを入力する。"
   (interactive "P")
   (org-insert-heading arg)
   (cond ((org-on-heading-p) (org-do-promote))
         ((org-at-item-p) (org-outdent-item))))
 (defun org-insert-heading-dwim (arg)
-  "現在と同じレベルの見出しを入力する。
-C-uをつけると1レベル上、C-u C-uをつけると1レベル下の見出しを入力する。"
+  "現在と同じレベルの見出しを入力する。
+C-uをつけると1レベル上、C-u C-uをつけると1レベル下の見出しを入力する。"
   (interactive "p")
   (case arg
     (4 (org-insert-subheading nil))
@@ -20,14 +20,28 @@ C-uをつけると1レベル上、C-u C-uをつけると1レベル下の見出�
 
 ;;; 言語は日本語
 (setq org-export-default-language "ja")
-;;; 文字コードはUTF-8
+;;; 文字コードはUTF-8
 (setq org-export-html-coding-system 'utf-8)
-;;; 行頭の:は使わない BEGIN_EXAMPLE ～ END_EXAMPLE で十分
+;;; 行頭の:は使わない BEGIN_EXAMPLE ～ END_EXAMPLE で十分
 (setq org-export-with-fixed-width nil)
 ;;; ^と_を解釈しない
 (setq org-export-with-sub-superscripts nil)
 ;;; --や---をそのまま出力する
 (setq org-export-with-special-strings nil)
-;;; TeX・LaTeXのコードを解釈しない
+;;; TeX・LaTeXのコードを解釈しない
 (setq org-export-with-TeX-macros nil)
 (setq org-export-with-LaTeX-fragments nil)
+
+
+(require 'org-install)
+(setq org-startup-truncated nil)
+(setq org-return-follows-link t)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(org-remember-insinuate)
+(setq org-directory "~/memo/")
+(setq org-default-notes-file (concat org-directory "agenda.org"))
+(setq org-remember-templates
+      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+        ))
