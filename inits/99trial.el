@@ -1,38 +1,4 @@
 
-;; ;; view-mode ;; 環境が変わるとなぜか使えない
-;; (setq pager-keybind
-;;       `( ;; vi-like
-;; 	("h" . backward-char)
-;; 	("l" . forward-char)
-;; 	("j" . next-line)
-;; 	("k" . previous-line)
-;; 	("b" . scroll-down)
-;; 	(" " . scroll-up)
-;; 	("w" . forward-word)
-;; 	("e" . backward-word)
-;; 	("J" . ,(lambda () (interactive) (scroll-up 1)))
-;; 	("K" . ,(lambda () (interactive) (scroll-down 1)))
-;; 	))
-;; (defun define-many-keys (keymap key-table &optional includes)
-;;   (let (key cmd)
-;;     (dolist (key-cmd key-table)
-;;       (setq key (car key-cmd)
-;; 	    cmd (cdr key-cmd))
-;;       (if (or (not includes) (member key includes))
-;; 	  (define-key keymap key cmd))))
-;;   keymap)
-;; (defun view-mode-hook--pager ()
-;;   (define-many-keys view-mode-map pager-keybind))
-;; (add-hook 'view-mode-hook 'view-mode-hook--pager)
-
-;; ;; for MacBookPro [TODO]
-;; (if window-system (global-set-key [f10] 'view-mode))
-;; ;; change color for each mode
-;; (if window-system (require 'viewer))
-;; (if window-system (viewer-stay-in-setup))
-;; (if window-system (setq viewer-modeline-color-unwritable "tomato"
-;;       viewer-modeline-color-view "orange"))
-;; (if window-system (viewer-change-modeline-color-setup))
 
 
 ;; *scratch*
@@ -42,7 +8,7 @@
 
 
 
-;; view-buffer-other-window の switch-to-buffer-other-window を switch-to-buffer にしたもの. letf でもよい.
+;; diff: switch-to-buffer-other-window -> switch-to-buffer 
 (defun my-view-buffer-other-window (buffer &optional not-return exit-action)
   (let* ((win				; This window will be selected by
 	  (get-lru-window))		; switch-to-buffer-other-window below.
@@ -72,4 +38,4 @@
 
 
 
-
+(global-auto-revert-mode -1)
