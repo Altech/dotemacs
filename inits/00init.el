@@ -59,3 +59,8 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (setq url-http-attempt-keepalives nil) ; To fix MELPA problem.
+
+
+;; *scratch*
+(setq initial-scratch-message "# This buffer is for notes you don't want to save, and for Ruby evaluation.")
+(setq initial-major-mode 'ruby-mode)

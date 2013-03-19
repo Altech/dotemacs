@@ -42,6 +42,8 @@
 ;; Undo limit
 (setq undo-limit 100000)
 (setq undo-strong-limit 130000)
+;; Revert buffer
+(global-auto-revert-mode -1)
 
 ;; [TODO]
 ;; ;; set backup directory

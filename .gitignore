@@ -1,5 +1,6 @@
 *.elc
 \#*
+.DS_Store
 
 ac-comphist.dat
 

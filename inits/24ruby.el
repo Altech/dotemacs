@@ -78,3 +78,22 @@
   (interactive)
   (anything anything-c-source-refe))
 
+
+;; diff: switch-to-buffer-other-window -> switch-to-buffer 
+(defun my-view-buffer-other-window (buffer &optional not-return exit-action)
+  (let* ((win				; This window will be selected by
+	  (get-lru-window))		; switch-to-buffer-other-window below.
+	 (return-to
+	  (and (not not-return)
+	       (cons (selected-window)
+		     (if (eq win (selected-window))
+			 t			; Has to make new window.
+		       (list
+			(window-buffer win)	; Other windows old buffer.
+			(window-start win)
+			(window-point win)))))))
+    (switch-to-buffer buffer) ;変更
+    (view-mode-enter (and return-to (cons (selected-window) return-to))
+		     exit-action)))
+
+
