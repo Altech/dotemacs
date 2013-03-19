@@ -95,4 +95,12 @@
 ;; rdefsx
 (setq rdefsx-ruby-command "/Users/Altech/.rvm/rubies/ruby-1.9.3-p286/bin/ruby")
 
+(set-scroll-bar-mode nil)
+
+(setq ns-pop-up-frames nil)
+
+;; color-theme
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-tango)
 
