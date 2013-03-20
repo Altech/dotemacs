@@ -104,3 +104,7 @@
 (color-theme-initialize)
 (color-theme-tango)
 
+;; transparency
+;; (setq default-frame-alist 
+;;       (append (list 
+;;                '(alpha . (85 75))) default-frame-alist))

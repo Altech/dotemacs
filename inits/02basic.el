@@ -23,11 +23,6 @@
 ;; find file
 (require 'ido)
 (ido-mode t)
-;; [TODO]
-;; ;; window switching (using shift-key)
-;; (windmove-default-keybindings)
-;; ;; window switching (反対側のウィンドウに飛べる)
-;; (setq windmove-wrap-around t)
 ;; alarm sign from sound to vision
 ;; (setq visible-bell t)
 ;; kill beep at error
@@ -44,22 +39,12 @@
 (setq undo-strong-limit 130000)
 ;; Revert buffer
 (global-auto-revert-mode -1)
-
-;; [TODO]
-;; ;; set backup directory
-;; (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
-;; ;; backup to particular dir
+;; Improve same buffer name
+(require 'uniquify)
+;; Find function routines
+(find-function-setup-keys)
+;; Backup to a particular dir
 (setq make-backup-files t)
 (setq backup-directory-alist
       (cons (cons "\\.*$" (expand-file-name "~/.emacs.d/backup"))
 	    backup-directory-alist))
-
-
-
-
-;; transparent
-;; (setq default-frame-alist 
-;;       (append (list 
-;;                '(alpha . (85 75))) default-frame-alist))
-;; display cursor coordinates
-
