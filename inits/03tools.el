@@ -2,6 +2,7 @@
 (require 'anything-startup)
 (setq migemo-isearch-min-length 2)
 (anything-read-string-mode 0) ;; for ido-mode [TODO]
+(require 'anything-match-plugin)
 ;; tramp
 (require 'tramp "~/.emacs.d/tramp/tramp")
 ;; popwin
@@ -16,8 +17,10 @@
 ;; git
 (add-to-list 'load-path "~/.emacs.d/magit")
 (require 'magit)
-;; gist
-;; [TODO]
+;; junk file
+(require 'open-junk-file)
+(global-set-key (kbd "C-x C-z") 'open-junk-file)
+(setq open-junk-file-format "~/dev/junk/%Y-%m-%d-%H-%M.")
 
 
 ;; auto-complete
@@ -126,3 +129,5 @@
 (require 'rotate)
 ;; (global-set-key (kbd "C-t") 'rotate-layout)
 (global-set-key (kbd "M-t") 'rotate-window)
+
+
