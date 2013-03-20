@@ -77,6 +77,13 @@
 ;; GTD
 (global-set-key (kbd "<f7>") 'org-remember)
 
+;; Pressing simultaneously
+(require 'key-chord)
+(setq key-chord-two-keys-delay 0.04)
+(key-chord-mode 1)
+
+;; Grep
+(key-chord-define-global "rg" 'rgrep)
 
 (defun other-window-or-split ()
   (interactive)
