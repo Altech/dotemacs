@@ -38,13 +38,12 @@
 (setq undo-limit 100000)
 (setq undo-strong-limit 130000)
 ;; Revert buffer
-(global-auto-revert-mode -1)
+(global-auto-revert-mode t) ; no effect?
 ;; Improve same buffer name
 (require 'uniquify)
 ;; Find function routines
 (find-function-setup-keys)
 ;; Backup to a particular dir
-(setq make-backup-files t)
-(setq backup-directory-alist
-      (cons (cons "\\.*$" (expand-file-name "~/.emacs.d/backup"))
-	    backup-directory-alist))
+(setq make-backup-files nil)
+;; Generic mode
+(require 'generic-x)
