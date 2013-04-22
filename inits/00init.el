@@ -60,4 +60,9 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (setq url-http-attempt-keepalives nil) ; To fix MELPA problem.
+(package-initialize)
+
+
+;; bookmark
+(set-default 'bookmark-default-file "~/.emacs.d/emacs.bmk")
 

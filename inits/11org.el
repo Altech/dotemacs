@@ -38,8 +38,8 @@ C-uをつけると1レベル上、C-u C-uをつけると1レベル下の�
 (setq org-return-follows-link t)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (org-remember-insinuate)
-(setq org-directory "~/memo/")
-(setq org-default-notes-file (concat org-directory "agenda.org"))
+(setq org-directory "~/Notes/")
+(setq org-default-notes-file (concat org-directory "何でもリスト.org"))
 (setq org-remember-templates
       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")

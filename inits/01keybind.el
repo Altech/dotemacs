@@ -62,6 +62,7 @@
 (global-set-key (kbd "M-u M-y") 'anything-yasnippet-2) 
 (global-set-key (kbd "M-u y") 'anything-yasnippet-2) 
 (global-set-key (kbd "M-x") 'anything-M-x)
+(global-set-key (kbd "<f2>") 'anything-apropos)
 ;; Scroll
 (global-set-key (kbd "<wheel-up>") 'scroll-down-with-lines)
 (global-set-key (kbd "<wheel-down>") 'scroll-up-with-lines)
@@ -87,6 +88,8 @@
 
 ;; Grep
 (key-chord-define-global "rg" 'rgrep)
+;; Evernote
+(key-chord-define-global (kbd "fj") 'ever-notes)
 
 (defun other-window-or-split ()
   (interactive)
