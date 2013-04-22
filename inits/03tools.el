@@ -12,11 +12,15 @@
 (add-to-list 'popwin:special-display-config '("*compilation*"))
 (add-to-list 'popwin:special-display-config '("* Oz Compiler*"))
 (add-to-list 'popwin:special-display-config '("*buffer-selection*"))
+(add-to-list 'popwin:special-display-config '("*git-gutter:diff*"))
 (add-to-list 'popwin:special-display-config '("*refe:ACL*")) ;; [TODO]
 (push '("\*refe" :regexp t :position top) popwin:special-display-config) ;; [TODO]
 ;; git
 (add-to-list 'load-path "~/.emacs.d/magit")
 (require 'magit)
+(require 'git-gutter)
+(global-git-gutter-mode 1)
+(setq git-gutter:verbosity 0)
 ;; junk file
 (require 'open-junk-file)
 (global-set-key (kbd "C-x C-z") 'open-junk-file)
@@ -131,3 +135,17 @@
 (global-set-key (kbd "M-t") 'rotate-window)
 
 
+;;;###autoload
+(defun altech:git-gutter:popup-hunk (&optional diffinfo)
+  "popup current diff hunk"
+  (interactive)
+  (git-gutter:awhen (or diffinfo
+                        (git-gutter:search-here-diffinfo git-gutter:diffinfos))
+    (with-current-buffer (get-buffer-create git-gutter:popup-buffer)
+      (erase-buffer)
+      (insert (plist-get it :content))
+      (insert "\n")
+      (goto-char (point-min))
+      (diff-mode)
+      (pop-to-buffer (current-buffer))
+      )))

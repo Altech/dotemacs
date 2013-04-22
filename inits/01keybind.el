@@ -72,8 +72,11 @@
 (global-set-key (kbd "M-l M-s") 'magit-status)
 (global-set-key (kbd "M-l M-b") 'magit-branch-manager)
 (global-set-key (kbd "M-l M-l") 'magit-log)
+(global-set-key (kbd "M-l M-d") 'altech:git-gutter:popup-hunk)
+(global-set-key (kbd "M-l M-n") 'git-gutter:next-diff)
+(global-set-key (kbd "M-l M-p") 'git-gutter:previous-diff)
 ;; Hihglight
-(global-set-key (kbd "C-u") 'highlight-symbol-at-point)
+(global-set-key (kbd "M-u M-u") 'highlight-symbol-at-point)
 ;; GTD
 (global-set-key (kbd "<f7>") 'org-remember)
 
