@@ -17,14 +17,20 @@
 	     (local-set-key (kbd "\'") 'self-insert-command)
 	     (local-set-key (kbd "C-M-j") 'paredit-backward)
 	     (local-set-key (kbd "C-M-r") 'paredit-forward-down)
-	     (local-set-key (kbd "C-M-k") 'kill-sexp)))
+	     (local-set-key (kbd "C-M-k") 'kill-sexp)
+	     (local-set-key (kbd "C-c C-e") 'toggle-debug-on-error)
+	     ))
 
 (add-hook 'ielm-mode-hook
           '(lambda ()
 	     (local-set-key (kbd "\'") 'self-insert-command)
 	     (local-set-key (kbd "C-M-j") 'paredit-backward)
 	     (local-set-key (kbd "C-M-r") 'paredit-forward-down)
-	     (local-set-key (kbd "C-M-k") 'kill-sexp)))
+	     (local-set-key (kbd "C-M-k") 'kill-sexp)
+	     ))
+
+(define-key paredit-mode-map (kbd "C-j") 'backward-char)
+
 
 ;; Keybind for S-Expression
 ;; C-M-f   next
