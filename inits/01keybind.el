@@ -19,6 +19,7 @@
 (global-set-key (kbd "C-q") 'undo)
 ;; Indent
 (global-set-key (kbd "C-m") 'newline-and-indent)
+(global-set-key (kbd "C-M-\\") 'my-indent-region)
 ;; Open terminal
 ;; 折り返し表示ON/OFF
 (global-set-key (kbd "C-c C-l") 'toggle-truncate-lines)
@@ -137,3 +138,8 @@
   (interactive)
   (ido-find-file-in-dir "~"))
 
+(defun my-indent-region (s e)
+  (interactive "r")
+  (if (not (use-region-p))
+      (indent-region (point-min) (point-max) nil)
+    (indent-region s e nil)))
