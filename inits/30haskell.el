@@ -103,31 +103,36 @@
 ;; (add-hook 'find-file-hook 'my-haskell-ac-init)
 
 
+
+;; ** my extension (open document and show type of functions) **
+
 (defun haskell-open-doc ()
   (interactive)
-  (let ((sym (thing-at-point 'symbol)))
-    (let ((target (haskell-open-doc-select-candidate
-		   (remove-if 'haskell-open-doc-filter-cond
-			      (remove-if 'null
-					 (mapcar 'haskell-open-doc-convert
-						 (remove ""
-							 (split-string (shell-command-to-string (concat "hoogle " sym)) "\n"))))))))
-      (if target
-	  (let ((mod (nth 0 target)) (fun (nth 1 target)) (type (nth 2 target)))
-	    (haskell-open-doc-uri-with-uri-fragment (concat (ghc-display-document-without-browse (ghc-resolve-package-name mod) mod nil) "#v:" fun)))))))
+  (if (ghc-extract-module)
+      (haskell-open-doc-uri-with-uri-fragment (haskell-open-doc-resolve-uri (ghc-extract-module)))
+    (let ((sym (thing-at-point 'symbol)))
+      (let* ((list-string (shell-command-to-string (concat "hoogle " sym)))
+	     (list (haskell-open-doc-select-candidate (remove-if 'haskell-open-doc-filter (haskell-open-doc-parse list-string)))))
+	(if list
+	    (let ((mod (nth 0 list)) (fun (nth 1 list)) (type (nth 2 list)))
+	      (haskell-open-doc-uri-with-uri-fragment (haskell-open-doc-resolve-uri mod fun)))
+	  (message "non function or no document"))))))
 
-(defun haskell-open-doc-convert (str)
-  (if (not (string-match "^\\([^ ]+\\) \\([^ ]+\\) :: \\(.+\\)" str))
-      nil ;(error "Unexpected hoogle output. \n%s" str)
-    (list (match-string 1 str) (match-string 2 str) (match-string 3 str))))
+(defun haskell-open-doc-parse (str)
+  (let ((list (remove "" (split-string str "\n"))))
+    (mapcar (lambda (str)
+	      (if (not (string-match "^\\([^ ]+\\) \\([^ ]+\\) :: \\(.+\\)" str))
+		  nil ;(error "Unexpected hoogle output. \n%s" str)
+		(list (match-string 1 str) (match-string 2 str) (match-string 3 str)))) list)))
 
-(defun haskell-open-doc-filter-cond (list)
+(defun haskell-open-doc-filter (list)
   (not (and
 	(string-equal (nth 1 list) sym)            ;; match the function name perfectly and
 	(remove-if (lambda (module)                ;; prefix of the module name is included in loaded modules.
 		     (not (and
 			   (<= (length module) (length (nth 0 list)))
-			   (string-equal module (substring (nth 0 list) 0 (length module)))))) ghc-loaded-module)))) 
+			   (string-equal module (substring (nth 0 list) 0 (length module)))))) ghc-loaded-module)
+	(not (null list))))) 
 
 (defun haskell-open-doc-select-candidate (candidate)
   (if (or (eq 1 (length candidate)) (eq 0 (length candidate)))
@@ -148,8 +153,7 @@
 	(kill-buffer "*WhichModule*")
 	(if (< position (length candidate))
 	    (nth position candidate)
-	  nil)))
-    ))
+	  nil)))))
 
 (defun haskell-open-doc-uri-with-uri-fragment (uri)
   (let ((file-name (make-temp-file "haskell-doc-")))
@@ -159,7 +163,43 @@
       (save-buffer)
       (kill-buffer))
     (run-at-time "3 sec" nil (lambda (file-name) (delete-file file-name)) file-name)
-    (shell-command (concat "open " file-name))))
+    (shell-command (concat "open " file-name)) (message "")))
+
+(defun haskell-open-doc-resolve-uri (mod &optional fun)
+  (concat (ghc-display-document-without-browse (ghc-resolve-package-name mod) mod nil)
+	  (if fun (concat "#v:" fun) "")))
+
+(define-key haskell-mode-map (kbd "C-c h") 'haskell-open-doc)
+
+;; if you use popwin.el
+(add-to-list 'popwin:special-display-config '("*WhichModule*"))
+(add-to-list 'popwin:special-display-config '("*GHC Info*"))
+
+
+
+(run-with-idle-timer 3.0 t 'haskell-show-type-in-minibuffer)
+
+
+;; Extension
+(defun ghc-show-type-in-minibuffer ()
+  (interactive)
+  (if (and (eq major-mode 'haskell-mode) (ghc-things-at-point))
+      (ignore-errors
+	(let* ((ask nil)
+	       (modname (or (ghc-find-module-name) "Main"))
+	       (expr (ghc-things-at-point))
+	       (file (buffer-file-name))
+	       (cmds (list "info" file modname expr)))
+	  (let* ((output (with-temp-buffer
+			   (apply 'call-process ghc-module-command nil t nil (append (ghc-make-ghc-options) cmds))
+			   (buffer-substring (point-min) (1- (point-max)))))
+		 (type (car (split-string (car (split-string output "\n")) "--"))))
+	    (with-current-buffer (window-buffer (minibuffer-window))
+	      (erase-buffer)
+	      (unless (string-match "^Dummy:" type)
+		(insert (propertize type 'face 'bold)))))))
+    (with-current-buffer (window-buffer (minibuffer-window))
+      (erase-buffer))))
 
 (defun ghc-display-document-without-browse (pkg-ver mod haskell-org)
   (when (and pkg-ver mod)
@@ -173,8 +213,3 @@
 	   (file (format "%s/%s.html" path mod-))
            (url (if (or haskell-org (not (file-exists-p file))) remote local)))
       url)))
-
-(define-key haskell-mode-map (kbd "C-c h") 'haskell-open-doc)
-
-;; if you use popwin.el
-(add-to-list 'popwin:special-display-config '("*WhichModule*"))
