@@ -59,8 +59,8 @@
 ;; ghc-mod の設定のあとに書いた方がよいかもしれません
 (add-hook 'haskell-mode-hook
   (lambda()
-    (setq ac-auto-start 1)
-    (setq ac-auto-show-menu 0.05)
+    (set (make-local-variable 'ac-auto-start) 1)
+    (set (make-local-variable 'ac-auto-show-menu) 0.05)
     (ghc-init)
     (flymake-mode 1)
     (define-key haskell-mode-map (kbd "C-M-q") 'anything-ghc-browse-document)
