@@ -2,7 +2,7 @@
 ;; basic face
 (set-face-attribute 'default nil
 		    :family "menlo";;"monaco"
-		    :height 110) ;;110
+		    :height 130) ;;110
 (set-fontset-font
  (frame-parameter nil 'font)
  'japanese-jisx0208
@@ -28,11 +28,11 @@
                     :family "Arial"
                     :height 130) ;; 130 markdown/org // 200
 ;; edit face
-(dolist (mode-hook (list 'org-mode-hook 'markdown-mode-hook))
+(dolist (mode-hook (list 'org-mode-hook 'markdown-mode-hook 'text-mode-hook))
   (add-hook mode-hook
 	    '(lambda()
 	       (buffer-face-set 'variable-pitch)
-	       (setq line-spacing 0.8) ;;0.4
+	       (setq line-spacing 0.6) ;;0.4
 	       (setq truncate-lines nil))))
 
 
@@ -42,7 +42,6 @@
 (global-set-key (kbd "C-x C-d") 'save-buffers-kill-terminal)
 ;; fullscreen
 (global-set-key (kbd "<f11>") 'ns-toggle-fullscreen)
-
 
 
 (require 'cl)
@@ -63,7 +62,7 @@
   (delete-other-frames)
   (beginning-of-buffer)
   (ns-do-hide-emacs)
-  (if (and (> (frame-width) 175) (> (frame-height) 60))
+  (if (and (> (frame-width) 155) (> (frame-height) 43))
       (ns-toggle-fullscreen)))
 
 
