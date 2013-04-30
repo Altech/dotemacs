@@ -1499,30 +1499,34 @@ is not."
 ;;@node Top level function, Mouse interface, Check, top
 ;;@section Top level function
 
-;;@cindex haskell-doc-mode-print-current-symbol-info
-;; This is the function hooked into the elisp command engine
-(defun haskell-doc-mode-print-current-symbol-info ()
-  "Print the type of the symbol under the cursor.
+;; ;;@cindex haskell-doc-mode-print-current-symbol-info
+;; ;; This is the function hooked into the elisp command engine
+;; (defun haskell-doc-mode-print-current-symbol-info ()
+;;   "Print the type of the symbol under the cursor.
 
-This function is run by an idle timer to print the type
- automatically if `haskell-doc-mode' is turned on."
-  (and haskell-doc-mode
-       (not (eobp))
-       (not executing-kbd-macro)
-       ;; Having this mode operate in the minibuffer makes it impossible to
-       ;; see what you're doing.
-       (not (eq (selected-window) (minibuffer-window)))
-       ;; take a nap, if run straight from post-command-hook.
-       (if (fboundp 'run-with-idle-timer) t
-         (sit-for haskell-doc-idle-delay))
-       ;; good morning! read the word under the cursor for breakfast
-       (haskell-doc-show-type)))
-       ;; ;; ToDo: find surrounding fct
-       ;; (cond ((eq current-symbol current-fnsym)
-       ;;        (haskell-doc-show-type current-fnsym))
-       ;;       (t
-       ;;        (or nil ; (haskell-doc-print-var-docstring current-symbol)
-       ;;            (haskell-doc-show-type current-fnsym)))))))
+;; This function is run by an idle timer to print the type
+;;  automatically if `haskell-doc-mode' is turned on."
+;;   (and haskell-doc-mode
+;;        (not (eobp))
+;;        (not executing-kbd-macro)
+;;        ;; Having this mode operate in the minibuffer makes it impossible to
+;;        ;; see what you're doing.
+;;        (not (eq (selected-window) (minibuffer-window)))
+;;        ;; take a nap, if run straight from post-command-hook.
+;;        (if (fboundp 'run-with-idle-timer) t
+;;          (sit-for haskell-doc-idle-delay))
+;;        ;; good morning! read the word under the cursor for breakfast
+;;        (haskell-doc-show-type)))
+;;        ;; ;; ToDo: find surrounding fct
+;;        ;; (cond ((eq current-symbol current-fnsym)
+;;        ;;        (haskell-doc-show-type current-fnsym))
+;;        ;;       (t
+;;        ;;        (or nil ; (haskell-doc-print-var-docstring current-symbol)
+;;        ;;            (haskell-doc-show-type current-fnsym)))))))
+
+
+(defun haskell-doc-mode-print-current-symbol-info ()
+  (ghc-show-type-in-minibuffer))
 
 (defun haskell-doc-current-info ()
   "Return the info about symbol at point.

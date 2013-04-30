@@ -11,7 +11,7 @@
 (add-to-list 'interpreter-mode-alist '("runghc" . haskell-mode))     ;#!/usr/bin/env runghc 用
 (add-to-list 'interpreter-mode-alist '("runhaskell" . haskell-mode)) ;#!/usr/bin/env runhaskell 用
 
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
@@ -177,7 +177,6 @@
 
 
 
-(run-with-idle-timer 3.0 t 'haskell-show-type-in-minibuffer)
 
 
 ;; Extension
@@ -192,14 +191,17 @@
 	       (cmds (list "info" file modname expr)))
 	  (let* ((output (with-temp-buffer
 			   (apply 'call-process ghc-module-command nil t nil (append (ghc-make-ghc-options) cmds))
-			   (buffer-substring (point-min) (1- (point-max)))))
-		 (type (car (split-string (car (split-string output "\n")) "--"))))
+			   (replace-regexp-in-string "\n[ \t]+" " " (buffer-substring (point-min) (1- (point-max))))))
+		 (type (progn (string-match "\\(.+\\)--" output) (match-string 1 output))))
 	    (with-current-buffer (window-buffer (minibuffer-window))
 	      (erase-buffer)
 	      (unless (string-match "^Dummy:" type)
 		(insert (propertize type 'face 'bold)))))))
     (with-current-buffer (window-buffer (minibuffer-window))
       (erase-buffer))))
+
+;; This behavior is configured in haskell-doc-mode.el
+;; (run-with-idle-timer 3.0 t 'haskell-show-type-in-minibuffer)
 
 (defun ghc-display-document-without-browse (pkg-ver mod haskell-org)
   (when (and pkg-ver mod)
