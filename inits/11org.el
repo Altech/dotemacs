@@ -45,3 +45,9 @@ C-uをつけると1レベル上、C-u C-uをつけると1レベル下の�
         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
         ))
+
+
+(defun org-open-help ()
+  (interactive)
+  (shell-command "open http://www.geocities.jp/km_pp1/org-mode/org-mode-document.html"))
+(define-key org-mode-map (kbd "C-c C-h") 'org-open-help)
