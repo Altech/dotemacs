@@ -108,3 +108,15 @@
 ;; (setq default-frame-alist 
 ;;       (append (list 
 ;;                '(alpha . (85 75))) default-frame-alist))
+
+;; ever-mode
+(add-to-list 'load-path "~/dev/ever-mode")
+(require 'ever-mode)
+(defconst ever-rendered-dir "/Users/Altech/Documents/Dropbox/RNotes/")
+(defun ever-open-rendered ()
+  (interactive)
+  (let ((this-file-name-sans-extension (file-name-sans-extension (file-name-nondirectory (buffer-file-name (current-buffer))))))
+    (string-match "^[^_]+" this-file-name-sans-extension)
+    (let ((path (concat ever-rendered-dir (match-string 0 this-file-name-sans-extension) ".html")))
+      (shell-command (concat "open " path)))))
+(global-set-key (kbd "C-c p") 'ever-open-rendered)
