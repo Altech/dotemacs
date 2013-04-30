@@ -39,7 +39,10 @@
 		      "/opt/local/bin"
 		      "/usr/local/bin"
 		      (expand-file-name "~/.emacs.d/bin")
-		      "/Users/Altech/.rvm/gems/ruby-1.9.3-p286/bin"))
+		      "/Users/Altech/Library/Haskell/bin"
+		      "/Users/Altech/.rvm/gems/ruby-1.9.3-p286/bin"
+		      "/Users/Altech/dev/scripts"
+		      ))
 (dolist (dir my-exec-path)
   (when (and (file-exists-p dir) (not (member dir exec-path)))
     (setenv "PATH" (concat dir ":" (getenv "PATH")))
