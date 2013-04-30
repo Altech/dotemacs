@@ -81,6 +81,8 @@
 (global-set-key (kbd "M-u M-u") 'highlight-symbol-at-point)
 ;; GTD
 (global-set-key (kbd "<f7>") 'org-remember)
+;; Utils
+(global-set-key (kbd "M-u M-y") 'paste-from-os-x)
 
 ;; Pressing simultaneously
 (require 'key-chord)
@@ -143,3 +145,8 @@
   (if (not (use-region-p))
       (indent-region (point-min) (point-max) nil)
     (indent-region s e nil)))
+
+
+(defun paste-from-os-x ()
+  (interactive)
+  (insert (shell-command-to-string "pbpaste")))
