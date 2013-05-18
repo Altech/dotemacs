@@ -97,3 +97,5 @@
 		     exit-action)))
 
 
+;; rdefsx
+(setq rdefsx-ruby-command "/Users/Altech/.rvm/rubies/ruby-1.9.3-p286/bin/ruby")

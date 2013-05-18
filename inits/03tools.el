@@ -135,7 +135,6 @@
 (global-set-key (kbd "M-t") 'rotate-window)
 
 
-;;;###autoload
 (defun altech:git-gutter:popup-hunk (&optional diffinfo)
   "popup current diff hunk"
   (interactive)
