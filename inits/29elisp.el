@@ -29,6 +29,8 @@
 	     (local-set-key (kbd "C-M-k") 'kill-sexp)
 	     ))
 
+(define-key lisp-interaction-mode-map (kbd "C-c p") 'eval-print-last-sexp)
+
 (define-key paredit-mode-map (kbd "C-j") 'backward-char)
 
 
