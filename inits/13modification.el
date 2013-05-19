@@ -1,17 +1,17 @@
-(define-minor-mode modi-presentation-mode
+(define-minor-mode modi-temporary-mode
   "presentation mode of modi."
   nil
-  " modi:pres"
+  " modi:temporary"
   (list
    (cons (kbd "C-;") 'modi:underline-region-temporary)
    (cons (kbd "C-'") 'modi:bold-region-temporary)
    (cons (kbd "C-.") 'modi:remove-decorations-of-region))
   (modi:visualize-decorations-of-buffer))
 
-(define-minor-mode modi-marking-mode
+(define-minor-mode modi-permanently-mode
   "presentation mode of modi."
   nil
-  " modi:mark"
+  " modi:permanently"
   (list
    (cons (kbd "C-;") 'modi:underline-region-permanently)
    (cons (kbd "C-'") 'modi:bold-region-permanently)
