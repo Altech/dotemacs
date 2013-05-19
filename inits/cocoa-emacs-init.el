@@ -21,9 +21,11 @@
                     :height 130) ;; 130 markdown/org // 200
 
 ;; color
+(add-to-list 'load-path "/Users/Altech/.emacs.d/emacs-color-theme-solarized")
 (require 'color-theme)
+(require 'color-theme-solarized)
 (color-theme-initialize)
-(color-theme-tango)
+(color-theme-tango) ;; or (color-theme-my-xp), (emacs-color-theme-solarized-[dark|light])
 
 ;; transparency
 (defun set-frame-transparent ()
