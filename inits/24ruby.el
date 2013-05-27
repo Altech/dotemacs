@@ -30,12 +30,18 @@
 (add-hook 'ruby-mode-hook
           '(lambda ()
              ;; (inf-ruby-keys)
+	     (local-set-key (kbd "C-M-j") 'ruby-backward-sexp)
+	     (local-set-key (kbd "C-M-SPC") 'ruby-mark-sexp)
 	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
 	     (local-set-key (kbd "|") 'insert-block-params)
 	     (local-set-key (kbd "{") 'insert-block-pair)
 	     (local-set-key (kbd "C-;") 'anything-refe)
 	     (local-set-key (kbd "M-i") 'ruby-indent-command)))
 
+(defun ruby-mark-sexp ()
+  (interactive)
+  (push-mark nil t t)
+  (ruby-forward-sexp))
 
 
 ;; for Rails [TODO]
