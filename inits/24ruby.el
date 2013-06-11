@@ -27,6 +27,8 @@
 ;;   "Run an inferior Ruby process")
 ;; (autoload 'inf-ruby-keys "inf-ruby"
 ;;   "Set local key defs for inf-ruby in ruby-mode")
+
+(require 'smartchr)
 (add-hook 'ruby-mode-hook
           '(lambda ()
              ;; (inf-ruby-keys)
@@ -36,7 +38,10 @@
 	     (local-set-key (kbd "|") 'insert-block-params)
 	     (local-set-key (kbd "{") 'insert-block-pair)
 	     (local-set-key (kbd "C-;") 'anything-refe)
-	     (local-set-key (kbd "M-i") 'ruby-indent-command)))
+	     (local-set-key (kbd "M-i") 'ruby-indent-command)
+	     (local-set-key (kbd "=") (smartchr '(" = " " == " "=")))
+	     (local-set-key (kbd "{") (smartchr '("{`!!'}" "#{`!!'}" "{")))
+	     ))
 
 (defun ruby-mark-sexp ()
   (interactive)
