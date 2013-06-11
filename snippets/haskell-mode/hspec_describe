@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: hspec_describe
+# key: describe
+# --
+describe "${1:target}" \$ do
+  
