@@ -7,3 +7,5 @@
 	      (goto-char (point-min))
 	      (replace-string (car ls) (cdr ls))))))
 
+
+(load "/Users/Altech/dev/scheme/haskell/elisp/hascm-mode.el")

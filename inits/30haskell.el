@@ -18,10 +18,23 @@
 
 
 ;; ghc-mod
-;; cabal でインストールしたライブラリのコマンドが格納されている bin ディレクトリへのパスを exec-path に追加する
-(add-to-list 'exec-path (concat (getenv "HOME") "/Library/Haskell/bin"));; ghc-flymake.el などがあるディレクトリ ghc-mod を ~/.emacs.d 以下で管理することにした
+;; cabal でインストールしたライブラリのコマンドが格納されている bin ディレクトリへのパスを exec-path に追加する
+(add-to-list 'exec-path (concat (getenv "HOME") "/Library/Haskell/bin"));; ghc-flymake.el などがあるディレクトリ ghc-mod を ~/.emacs.d 以下で管理することにした
 (add-to-list 'load-path "/Users/Altech/Library/Haskell/ghc-7.4.2/lib/ghc-mod-1.12.1/share/")
 (autoload 'ghc-init "ghc" nil t)
+
+
+(defun haskell-switch-test-and-src ()
+  (interactive)
+  (let ((path (buffer-file-name)))
+    (when (string-match "\\.hs$" path)
+      (cond ((string-match "\\(.*\\)src/\\(.*\\)\\.hs$" path)
+	     (let ((test-path (concat (match-string 1 path) "test/" (match-string 2 path) "Spec.hs")))
+	       (find-file test-path))))
+      (cond ((string-match "\\(.*\\)test/\\(.*\\)Spec\\.hs$" path)
+	     (princ (match-string 2 path))
+	     (let ((src-path (concat (match-string 1 path) "src/" (match-string 2 path) ".hs")))
+	       (find-file src-path)))))))
 
 ;; (setq enable-local-eval t)
 
@@ -38,7 +51,7 @@
 
 (defun anything-c-source-ghc-mod ()
   (unless (executable-find "ghc-mod")
-    (error "ghc-mod を利用できません。ターミナルで which したり、*scratch* で exec-path を確認したりしましょう"))
+    (error "ghc-mod を利用できません。ターミナルで which したり、*scratch* で exec-path を確認したりしましょう"))
   (let ((buffer (anything-candidate-buffer 'global)))
     (with-current-buffer buffer
       (call-process "ghc-mod" nil t t "list"))))
@@ -55,7 +68,7 @@
   (anything anything-c-source-ghc-mod))
 
 ;; M-x anything-ghc-browse-document() に対応するキーの割り当て
-;; ghc-mod の設定のあとに書いた方がよいかもしれません
+;; ghc-mod の設定のあとに書いた方がよいかもしれません
 (add-hook 'haskell-mode-hook
   (lambda()
     (set (make-local-variable 'ac-auto-start) 1)
@@ -66,8 +79,9 @@
     (define-key haskell-mode-map (kbd "C-M-j") 'backward-sexp)
     (define-key haskell-mode-map (kbd "C-M-k") 'kill-sexp)
     (define-key haskell-mode-map (kbd "C-x C-d") 'save-buffers-kill-terminal)
+    (define-key haskell-mode-map (kbd "\'") 'self-insert-command)
+    (define-key haskell-mode-map (kbd "C-c C-s") 'haskell-switch-test-and-src)
     ))
-
 
 
 (defun anything-default-display-buffer (buf)
@@ -146,7 +160,7 @@
   (let ((file-name (make-temp-file "haskell-doc-")))
     (find-file file-name)
     (with-current-buffer (file-name-nondirectory file-name)
-      (insert (concat "<html><head><script>setTimeout(function () { document.location = '" uri "' } , 0)</script></head>"))
+      (insert (concat "<html><head><script>setTimeout(function () { document.location = '" uri "' } , 0)</script></head><body>" uri "</body></html>"))
       (save-buffer)
       (kill-buffer))
     (run-at-time "3 sec" nil (lambda (file-name) (delete-file file-name)) file-name)
@@ -220,7 +234,7 @@
 						 (haskell-interactive-mode-clear)
 						 (haskell-process-clear)))
 
-(setq ghc-ghc-options (list "-package-conf=/Users/Altech/.ghc/x86_64-darwin-7.4.2/package.conf.d" "-fno-warn-missing-signatures"))
+(setq ghc-ghc-options (list "-package-conf=/Users/Altech/.ghc/x86_64-darwin-7.4.2/package.conf.d" "-fno-warn-missing-signatures")) ;; "-fno-warn-missing-signatures"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

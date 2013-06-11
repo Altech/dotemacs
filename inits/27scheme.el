@@ -18,3 +18,7 @@
 	     (local-set-key (kbd "C-M-k") 'kill-sexp)
 	     (local-set-key (kbd "C-c C-s") 'scheme-other-window)
 	     ))
+
+(require 'paredit)
+(add-hook 'scheme-mode-hook 'enable-paredit-mode)
+
