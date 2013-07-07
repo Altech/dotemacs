@@ -11,6 +11,7 @@
   (define-key coq-mode-map (kbd "C-'") 'altech:rinkou-emp-region)
   (define-key coq-mode-map (kbd "C-.") 'altech:rinkou-remove-modification)
   (define-key coq-mode-map (kbd "C-c C-s r") 'altech:rinkou-remove-modification)
+  (define-key coq-mode-map (kbd "M-d") 'look-up-current-word-in-dictionary-app)
   (define-key coq-mode-map (kbd "C-l") (lambda ()
 					(interactive)
 					(recenter 0))))

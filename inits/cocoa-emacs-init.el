@@ -55,7 +55,8 @@
 (set-scroll-bar-mode nil)
 ;; open a file without pop-up when click the icon.
 (setq ns-pop-up-frames nil)
-
+;; dictionary
+(global-set-key (kbd "C-c w") 'look-up-current-word-in-dictionary-app)
 
 ;; Convert utf-16lc -> utf-8
 ;; [TODO] Remove(this code require revert-buffer.)
@@ -98,3 +99,6 @@
   (if (and (> (frame-width) 155) (> (frame-height) 43))
       (ns-toggle-fullscreen)))
 
+(defun look-up-current-word-in-dictionary-app ()
+  (interactive)
+  (browse-url (concat "dict://" (current-word))))
