@@ -111,7 +111,21 @@
 			    (overlay-put (make-overlay (match-beginning 2) (match-end 2)) 'face 'underline)
 			    (goto-char (match-end 2))
 			    (super-coq:add-before-info (concat " (" (cdr before-premise)  ")")))))))
-		after-premises))
+		after-premises)
+	  ;; show premise by gray if deleted
+	  (mapc (lambda (premise)
+		  (let ((after-premise (assoc (car premise) after-premises)))
+		    (unless after-premise
+		      (let ((rest (cdr (member premise (reverse before-premises)))))
+			(if (consp rest)
+			    (super-coq:add-faces-to-goals (concat "^  " (caar rest) " : .+$")
+			      (goto-char (match-end 0))
+			      (super-coq:add-before-info (concat "\n  " (car premise) " : " (cdr premise))))
+			  ;; case : first premise
+			  (goto-line 3)
+			  (beginning-of-line)
+			  (super-coq:add-before-info (concat "  " (car premise) " : " (cdr premise) "\n")))))))
+		before-premises))
 	;; show before goal term if changed
 	(let ((before-goal (cdr (assq 'goal before-goals)))
 	      (after-goal  (cdr (assq 'goal after-goals))))
