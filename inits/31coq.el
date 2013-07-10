@@ -33,18 +33,35 @@
 ;; ==============================
 
 (defun super-coq:parse-goals (s)
- (super-coq:bundle-premises
-  (super-coq:cleansing
-   (super-coq:merge-first-alist
-    (mapcar
-     (lambda (l) (cond
-		  ((string-match "\\([0-9]+\\) subgoals, subgoal [0-9]+ (ID \\([0-9]+\\))" l) (cons 'current-subgoal (list (cons 'nsubgoals (match-string 1 l)) (cons 'id (match-string 2 l)))))
-		  ((string-match "(ID \\([0-9]+\\))" l) (cons 'id (match-string 1 l)))
-		  ((string-match "^  \\([^ ].*?\\) : \\(.+\\)" l) (cons 'premise (cons (match-string 1 l) (match-string 2 l))))
-		  ((string-match "===============" l) 'induction-line)
-		  ((string-match "^   \\(.+\\)" l) (cons 'maybe-goal (match-string 1 l)))
-		  (t nil)))
-     (split-string s "\n"))))))		; => super-coq:parse-goals
+  (super-coq:bundle-premises
+   (super-coq:cleansing
+    (super-coq:merge-first-alist
+     (mapcar
+      (lambda (l) (cond
+		   ((string-match "\\([0-9]+\\) subgoals, subgoal [0-9]+ (ID \\([0-9]+\\))" l) (cons 'current-subgoal (list (cons 'nsubgoals (match-string 1 l)) (cons 'id (match-string 2 l)))))
+		   ((string-match "(ID \\([0-9]+\\))" l) (cons 'id (match-string 1 l)))
+		   ((string-match "^  \\([^ ].*?\\) : \\(.+\\)" l) (cons 'premise (cons (match-string 1 l) (match-string 2 l))))
+		   ((string-match "===============" l) 'induction-line)
+		   ((string-match "^   \\(.+\\)" l) (cons 'maybe-goal (match-string 1 l)))
+		   (t nil)))
+      (split-string s "\n"))))))
+
+(defun super-coq:get-colors-info-from-buffer ()
+  (with-current-buffer (get-buffer "*goals*")
+    (save-excursion
+      (beginning-of-buffer)
+      (let ((mapping '()))
+	(while (re-search-forward "(ID \\([0-9]+\\)).*\\(  \\)$" nil t)
+	  (let ((maybe-color-overlay
+		 (super-coq:find
+		  (lambda (o) (eq (overlay-get o 'category) 'coq-improver-color))
+		  (overlays-in (match-beginning 2) (match-end 2)))))
+	    (if maybe-color-overlay
+		(add-to-list 'mapping
+			     (cons
+			      (buffer-substring-no-properties (match-beginning 1) (match-end 1))
+			      (cadr (assoc :background (overlay-get maybe-color-overlay 'font-lock-face))))))))
+	(reverse mapping)))))
 
 (defun super-coq:merge-first-alist (ls)
   (if (and (consp ls) (listp (car ls)))
@@ -60,8 +77,7 @@
 	(if (consp d)
 	    (cons d (super-coq:cleansing (cdr ls)))
 	  (if (eq d 'induction-line)
-	      (cons (cons 'goal (cdadr ls)) (remove-if (lambda (e) (null e)) (cddr ls)))
-	    ))))))
+	      (cons (cons 'goal (cdadr ls)) (remove-if (lambda (e) (null e)) (cddr ls)))))))))
 
 (defun super-coq:bundle-premises (ls)
   (if (null ls)
@@ -94,13 +110,31 @@
       (car ls)
     (super-coq:last (cdr ls))))
 
+(defun super-coq:find (p ls)
+  (let ((removed (remove-if-not p ls)))
+    (if (null removed)
+	nil
+      (car removed))))
+
+(defun super-coq:zip (list1 list2)
+  (cond
+   ((null list1) nil)
+   ((null list2) nil) 
+   (t (cons (cons (car list1) (car list2)) (super-coq:zip (cdr list1) (cdr list2))))))
+
+(defun super-coq:next-element-randomly (element list)
+  (let ((removed-list (remove-if (lambda (e) (equal element e)) list)))
+    (nth (random (length removed-list)) removed-list)))
+
 ;; ==================
 ;; ** main command **
 ;; ==================
+
 (defun super-coq:proof-next ()
   (interactive)
-  (super-coq:remove-info)
-  (let* ((before-goals (super-coq:parse-goals (with-current-buffer (get-buffer "*goals*") (buffer-string)))))
+  (let* ((before-color-info (super-coq:get-colors-info-from-buffer))
+	 (before-goals (progn (super-coq:remove-info)
+			      (super-coq:parse-goals (with-current-buffer (get-buffer "*goals*") (buffer-string))))))
     (proof-assert-next-command-interactive)
     (sleep-for 0.15)
     (let* ((after-goals (super-coq:parse-goals (with-current-buffer (get-buffer "*goals*") (buffer-string)))))
@@ -114,6 +148,7 @@
 	      (after-goal  (cdr (assq 'goal after-goals))))
 	  (super-coq:display-before-goal-if-changed)))
       (let ((before-ids (super-coq:ids before-goals)) (after-ids (super-coq:ids after-goals)))
+	(super-coq:display-subgoals-color (cdr (super-coq:update-color-mapping before-color-info)))
 	(super-coq:display-new-subgoals)))))
 
 ;; ==========================================
@@ -160,12 +195,45 @@
   (mapc (lambda (id)
 	  (unless (member id before-ids)
 	    (super-coq:add-faces-to-goals (concat "subgoal [0-9]+ (ID " id ").*$")
-	      (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'bold))))
+	      (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'font-lock-face 'bold))))
 	after-ids))
+
+(defun super-coq:display-subgoals-color (map)
+  (mapc
+   (lambda (pair)
+     (let ((id (car pair)) (color (cdr pair)))
+       (super-coq:add-faces-to-goals (concat "(ID \\(" id "\\)).*$")
+	 (goto-char (match-end 0))
+	 (insert "  ") ;; color box
+	 (let ((o (make-overlay (match-end 0) (+ (match-end 0) 2))))
+	   (overlay-put o 'category 'coq-improver-color)
+	   (overlay-put o 'font-lock-face (list '(:box "gray")
+						'(:foreground "black")
+						`(:background ,color)))))))
+   map))
+
+(defun super-coq:update-color-mapping (before-mapping)
+  (let ((current-color (if before-mapping (cdar before-mapping) (car super-coq:subgoal-color-list))))
+    (reverse
+     (mapcar
+      (lambda (id)
+	(let ((pair (assoc id before-mapping)))
+	  (if pair
+	      (progn
+		(setq current-color (cdr pair))
+		pair)
+	    (progn
+	      (let ((next-color (super-coq:next-element-randomly current-color super-coq:subgoal-color-list)))
+		(setq current-color next-color)
+		(cons id next-color))))))
+      (reverse after-ids)))))
 
 ;; ==========================
 ;; ** modificatin routines **
 ;; ==========================
+
+(defvar super-coq:subgoal-color-list '("red" "blue" "green" "yellow" "purple" "sienna4" "cyan"))
+
 (defun super-coq:add-before-info (info)
   (let* ((s (concat ">>>" info "<<<")) (p1 (point)) (p2 (+ p1 (length s))))
     (insert s)
@@ -187,6 +255,7 @@
       (save-restriction
 	(narrow-to-region s e)
 	(remove-overlays s e 'category 'coq-improver)
+	(remove-overlays s e 'category 'coq-improver-color)
 	(beginning-of-buffer)
 	(while (re-search-forward ">>>\\(.\\|\n\\)+?<<<" nil t)
 	  (replace-match ""))))
@@ -207,5 +276,4 @@
 ;; (super-coq:parse-goals sample-goals) ; => 
 
 ;; [TODO]
-;; - visualize change of stack of subgoals by color (e.g. used `apply`).
 ;; - deal multi-line goal rightly (line:985).
