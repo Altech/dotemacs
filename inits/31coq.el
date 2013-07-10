@@ -18,8 +18,8 @@
   (define-key coq-mode-map (kbd "C-c C-s r") 'altech:rinkou-remove-modification)
   (define-key coq-mode-map (kbd "M-d") 'look-up-current-word-in-dictionary-app)
   (define-key coq-mode-map (kbd "C-l") (lambda ()
-					(interactive)
-					(recenter 0)))
+					 (interactive)
+					 (recenter 0)))
   (define-key coq-mode-map (kbd "C-M-f") 'super-coq:proof-next)
   (define-key coq-mode-map (kbd "C-M-g") 'proof-assert-next-command-interactive)
   (define-key coq-mode-map (kbd "C-M-j") 'proof-undo-last-successful-command))
@@ -138,17 +138,20 @@
     (proof-assert-next-command-interactive)
     (sleep-for 0.15)
     (let* ((after-goals (super-coq:parse-goals (with-current-buffer (get-buffer "*goals*") (buffer-string)))))
-      (if (not (equal (cdr (assq 'nsubgoals before-goals)) (cdr (assq 'nsubgoals after-goals))))
-	  (super-coq:display-before-nsubgoals)
-	(let ((before-premises (cdr (assq 'premises before-goals)))
-	      (after-premises  (cdr (assq 'premises after-goals))))
-	  (mapc 'super-coq:display-new-or-rewrited-premise after-premises)
-	  (mapc 'super-coq:display-deleted-premise before-premises))
-	(let ((before-goal (cdr (assq 'goal before-goals)))
-	      (after-goal  (cdr (assq 'goal after-goals))))
-	  (super-coq:display-before-goal-if-changed)))
+      (if (equal (cdr (assq 'nsubgoals before-goals)) (cdr (assq 'nsubgoals after-goals)))
+	  (progn
+	    (let ((before-premises (cdr (assq 'premises before-goals)))
+		  (after-premises  (cdr (assq 'premises after-goals))))
+	      (mapc 'super-coq:display-new-or-rewrited-premise after-premises)
+	      (mapc 'super-coq:display-deleted-premise before-premises))
+	    (let ((before-goal (cdr (assq 'goal before-goals)))
+		  (after-goal  (cdr (assq 'goal after-goals))))
+	      (super-coq:display-before-goal-if-changed))))
       (let ((before-ids (super-coq:ids before-goals)) (after-ids (super-coq:ids after-goals)))
-	(super-coq:display-subgoals-color (cdr (super-coq:update-color-mapping before-color-info)))
+	(let ((updated-mapping (super-coq:update-color-mapping before-color-info)))
+	  (if (member (caar updated-mapping) before-ids)
+	      (super-coq:display-subgoals-color (list (car updated-mapping))))
+	  (super-coq:display-subgoals-color (cdr updated-mapping)))
 	(super-coq:display-new-subgoals)))))
 
 ;; ==========================================
@@ -168,28 +171,23 @@
 	    (super-coq:add-before-info (concat " (" (cdr before-premise)  ")")))))))
 
 (defun super-coq:display-deleted-premise (premise)
-		  (let ((after-premise (assoc (car premise) after-premises)))
-		    (unless after-premise
-		      (let ((rest (cdr (member premise (reverse before-premises)))))
-			(if (consp rest)
-			    (super-coq:add-faces-to-goals (concat "^  " (caar rest) " : .+$")
-			      (goto-char (match-end 0))
-			      (super-coq:add-before-info (concat "\n  " (car premise) " : " (cdr premise))))
-			  ;; case : first premise
-			  (goto-line 3)
-			  (beginning-of-line)
-			  (super-coq:add-before-info (concat "  " (car premise) " : " (cdr premise) "\n")))))))
+  (let ((after-premise (assoc (car premise) after-premises)))
+    (unless after-premise
+      (let ((rest (cdr (member premise (reverse before-premises)))))
+	(if (consp rest)
+	    (super-coq:add-faces-to-goals (concat "^  " (caar rest) " : .+$")
+	      (goto-char (match-end 0))
+	      (super-coq:add-before-info (concat "\n  " (car premise) " : " (cdr premise))))
+	  ;; case : first premise
+	  (goto-line 3)
+	  (beginning-of-line)
+	  (super-coq:add-before-info (concat "  " (car premise) " : " (cdr premise) "\n")))))))
 
 (defun super-coq:display-before-goal-if-changed ()
   (if (not (equal before-goal after-goal))
       (super-coq:add-faces-to-goals "==============\n   \\(.+\\)"
 	(goto-char (match-beginning 1))
 	(super-coq:add-before-info (concat before-goal "\n-> ")))))
-
-(defun super-coq:display-before-nsubgoals ()
-  (super-coq:add-faces-to-goals "^\\([0-9]+\\)"
-	    (overlay-put (make-overlay (match-beginning 1) (match-end 1)) 'face 'underline)
-	    (super-coq:add-before-info (concat " (" (cdr (assq 'nsubgoals before-goals)) ")"))))
 
 (defun super-coq:display-new-subgoals ()
   (mapc (lambda (id)
