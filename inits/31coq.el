@@ -225,8 +225,9 @@
      (let ((id (car pair)) (color (cdr pair)))
        (super-coq:add-faces-to-goals (concat "(ID \\(" id "\\)).*$")
 	 (goto-char (match-end 0))
-	 (insert "  ") ;; color box
-	 (let ((o (make-overlay (match-end 0) (+ (match-end 0) 2))))
+	 (unless (string-match "  $" (thing-at-point 'line))
+	   (insert "  ")) ;; color box
+	 (let ((o (make-overlay (- (point-at-eol) 2) (point-at-eol))))
 	   (overlay-put o 'category 'coq-improver-color)
 	   (overlay-put o 'font-lock-face (list '(:box "gray")
 						'(:foreground "black")
