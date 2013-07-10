@@ -71,13 +71,19 @@
 (defun super-coq:cleansing (ls)
   (if (null ls)
       nil
-    (let ((d (car ls)))
+    (let ((d (car ls)) (goalp (lambda (c) (and (not (null c)) (consp c) (eq 'maybe-goal (car c))))))
       (if (null d)
 	  (super-coq:cleansing (cdr ls))
 	(if (consp d)
 	    (cons d (super-coq:cleansing (cdr ls)))
 	  (if (eq d 'induction-line)
-	      (cons (cons 'goal (cdadr ls)) (remove-if (lambda (e) (null e)) (cddr ls)))))))))
+	      (cons
+	       (cons 'goal
+		     (join (mapcar 'cdr
+				   (super-coq:take-while goalp (cdr ls)))
+			   "\n   "))
+	       (remove-if (lambda (e) (null e))
+			  (super-coq:drop-while goalp (cdr ls))))))))))
 
 (defun super-coq:bundle-premises (ls)
   (if (null ls)
@@ -121,6 +127,23 @@
    ((null list1) nil)
    ((null list2) nil) 
    (t (cons (cons (car list1) (car list2)) (super-coq:zip (cdr list1) (cdr list2))))))
+
+(defun super-coq:join (list sep)
+  (mapconcat 'identity list sep))
+
+(defun super-coq:take-while (p ls)
+  (if (null ls)
+      nil
+    (if (apply p (list (car ls)))
+	(cons (car ls) (super-coq:take-while p (cdr ls)))
+      nil)))
+
+(defun super-coq:drop-while (p ls)
+  (if (null ls)
+      nil
+    (if (apply p (list (car ls)))
+	(super-coq:drop-while p (cdr ls))
+      ls)))
 
 (defun super-coq:next-element-randomly (element list)
   (let ((removed-list (remove-if (lambda (e) (equal element e)) list)))
@@ -272,6 +295,3 @@
 ;; (super-coq:remove-info)
 ;; (defvar sample-goals (with-current-buffer (get-buffer "*goals*") (buffer-string)))
 ;; (super-coq:parse-goals sample-goals) ; => 
-
-;; [TODO]
-;; - deal multi-line goal rightly (line:985).
