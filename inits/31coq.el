@@ -35,15 +35,21 @@
 (defun super-coq:parse-goals (s)
  (super-coq:bundle-premises
   (super-coq:cleansing
-   (mapcar
-    (lambda (l) (cond
-		 ((string-match "\\([0-9]+\\) subgoals" l) (cons 'nsubgoals (match-string 1 l)))
-		 ((string-match "(ID \\([0-9]+\\))" l) (cons 'id (match-string 1 l)))
-		 ((string-match "^  \\([^ ].*?\\) : \\(.+\\)" l) (cons 'premise (cons (match-string 1 l) (match-string 2 l))))
-		 ((string-match "===============" l) 'induction-line)
-		 ((string-match "^   \\(.+\\)" l) (cons 'maybe-goal (match-string 1 l)))
-		 (t nil)))
-    (split-string s "\n"))))) ; => super-coq:parse-goals
+   (super-coq:merge-first-alist
+    (mapcar
+     (lambda (l) (cond
+		  ((string-match "\\([0-9]+\\) subgoals, subgoal [0-9]+ (ID \\([0-9]+\\))" l) (cons 'current-subgoal (list (cons 'nsubgoals (match-string 1 l)) (cons 'id (match-string 2 l)))))
+		  ((string-match "(ID \\([0-9]+\\))" l) (cons 'id (match-string 1 l)))
+		  ((string-match "^  \\([^ ].*?\\) : \\(.+\\)" l) (cons 'premise (cons (match-string 1 l) (match-string 2 l))))
+		  ((string-match "===============" l) 'induction-line)
+		  ((string-match "^   \\(.+\\)" l) (cons 'maybe-goal (match-string 1 l)))
+		  (t nil)))
+     (split-string s "\n"))))))		; => super-coq:parse-goals
+
+(defun super-coq:merge-first-alist (ls)
+  (if (and (consp ls) (listp (car ls)))
+      (append (cdar ls) (cdr ls))
+    ls))
 
 (defun super-coq:cleansing (ls)
   (if (null ls)
@@ -151,11 +157,9 @@
 	    (super-coq:add-before-info (concat " (" (cdr (assq 'nsubgoals before-goals)) ")"))))
 
 (defun super-coq:display-new-subgoals ()
-  (super-coq:add-faces-to-goals "subgoal [0-9]+ (ID [0-9]+)$"
-    (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'bold))
   (mapc (lambda (id)
 	  (unless (member id before-ids)
-	    (super-coq:add-faces-to-goals (concat "^.*(ID " id ").*:$")
+	    (super-coq:add-faces-to-goals (concat "subgoal [0-9]+ (ID " id ").*$")
 	      (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'bold))))
 	after-ids))
 
@@ -201,3 +205,7 @@
 ;; (super-coq:remove-info)
 ;; (defvar sample-goals (with-current-buffer (get-buffer "*goals*") (buffer-string)))
 ;; (super-coq:parse-goals sample-goals) ; => 
+
+;; [TODO]
+;; - visualize change of stack of subgoals by color (e.g. used `apply`).
+;; - deal multi-line goal rightly (line:985).
