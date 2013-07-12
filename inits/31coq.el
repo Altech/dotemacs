@@ -22,7 +22,7 @@
 					 (recenter 0)))
   (define-key coq-mode-map (kbd "C-M-f") 'super-coq:proof-assert-next-command-interactive)
   (define-key coq-mode-map (kbd "C-M-g") 'proof-assert-next-command-interactive)
-  (define-key coq-mode-map (kbd "C-M-j") 'proof-undo-last-successful-command))
+  (define-key coq-mode-map (kbd "C-M-j") 'super-coq:proof-undo-last-successful-command))
 
 (defadvice proof-assert-next-command-interactive (after back-one-char)
   (goto-char (1- (point))))
@@ -109,6 +109,8 @@
 ;; ** main command **
 ;; ==================
 
+(defvar super-coq:mapping-cache '())
+
 (defun super-coq:proof-assert-next-command-interactive ()
   (interactive)
   (let* ((before-color-info (super-coq:get-colors-info-from-buffer))
@@ -128,10 +130,17 @@
 	      (super-coq:display-before-goal-if-changed))))
       (let ((before-ids (super-coq:ids before-goals)) (after-ids (super-coq:ids after-goals)))
 	(let ((updated-mapping (super-coq:update-color-mapping before-color-info)))
+	  (setq super-coq:mapping-cache  updated-mapping)
 	  (if (member (caar updated-mapping) before-ids)
 	      (super-coq:display-subgoals-color (list (car updated-mapping))))
 	  (super-coq:display-subgoals-color (cdr updated-mapping)))
 	(super-coq:display-new-subgoals)))))
+
+(defun super-coq:proof-undo-last-successful-command ()
+  (interactive)
+  (proof-undo-last-successful-command)
+  (sleep-for 0.15)
+  (super-coq:display-subgoals-color super-coq:mapping-cache))
 
 ;; ==========================================
 ;; ** display routines (use dynamic scope) **
