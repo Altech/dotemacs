@@ -20,10 +20,9 @@
   (define-key coq-mode-map (kbd "C-l") (lambda ()
 					 (interactive)
 					 (recenter 0)))
-  (define-key coq-mode-map (kbd "C-M-f") 'super-coq:proof-next)
+  (define-key coq-mode-map (kbd "C-M-f") 'super-coq:proof-assert-next-command-interactive)
   (define-key coq-mode-map (kbd "C-M-g") 'proof-assert-next-command-interactive)
   (define-key coq-mode-map (kbd "C-M-j") 'proof-undo-last-successful-command))
-
 
 (defadvice proof-assert-next-command-interactive (after back-one-char)
   (goto-char (1- (point))))
@@ -106,54 +105,11 @@
 	    (cons (cdar ls) (super-coq:ids (cdr ls)))
 	  (super-coq:ids (cdr ls))))))
 
-(defun super-coq:init (ls)
-  (if (null (cddr ls))
-      (cons (car ls) nil)
-    (cons (car ls) (super-coq:init (cdr ls)))))
-
-(defun super-coq:last (ls)
-  (if (null (cdr ls))
-      (car ls)
-    (super-coq:last (cdr ls))))
-
-(defun super-coq:find (p ls)
-  (let ((removed (remove-if-not p ls)))
-    (if (null removed)
-	nil
-      (car removed))))
-
-(defun super-coq:zip (list1 list2)
-  (cond
-   ((null list1) nil)
-   ((null list2) nil) 
-   (t (cons (cons (car list1) (car list2)) (super-coq:zip (cdr list1) (cdr list2))))))
-
-(defun super-coq:join (list sep)
-  (mapconcat 'identity list sep))
-
-(defun super-coq:take-while (p ls)
-  (if (null ls)
-      nil
-    (if (apply p (list (car ls)))
-	(cons (car ls) (super-coq:take-while p (cdr ls)))
-      nil)))
-
-(defun super-coq:drop-while (p ls)
-  (if (null ls)
-      nil
-    (if (apply p (list (car ls)))
-	(super-coq:drop-while p (cdr ls))
-      ls)))
-
-(defun super-coq:next-element-randomly (element list)
-  (let ((removed-list (remove-if (lambda (e) (equal element e)) list)))
-    (nth (random (length removed-list)) removed-list)))
-
 ;; ==================
 ;; ** main command **
 ;; ==================
 
-(defun super-coq:proof-next ()
+(defun super-coq:proof-assert-next-command-interactive ()
   (interactive)
   (let* ((before-color-info (super-coq:get-colors-info-from-buffer))
 	 (before-goals (progn (super-coq:remove-info)
@@ -244,10 +200,9 @@
 	      (progn
 		(setq current-color (cdr pair))
 		pair)
-	    (progn
-	      (let ((next-color (super-coq:next-element-randomly current-color super-coq:subgoal-color-list)))
-		(setq current-color next-color)
-		(cons id next-color))))))
+	    (let ((next-color (super-coq:next-element-randomly current-color super-coq:subgoal-color-list)))
+	      (setq current-color next-color)
+	      (cons id next-color)))))
       (reverse after-ids)))))
 
 ;; ==========================
@@ -292,6 +247,53 @@
        (while (re-search-forward ,regexp nil t)
 	 ,@body))
      (setq buffer-read-only t)))
+
+;; =============
+;; ** utility **
+;; =============
+
+(defun super-coq:init (ls)
+  (if (null (cddr ls))
+      (cons (car ls) nil)
+    (cons (car ls) (super-coq:init (cdr ls)))))
+
+(defun super-coq:last (ls)
+  (if (null (cdr ls))
+      (car ls)
+    (super-coq:last (cdr ls))))
+
+(defun super-coq:find (p ls)
+  (let ((removed (remove-if-not p ls)))
+    (if (null removed)
+	nil
+      (car removed))))
+
+(defun super-coq:zip (list1 list2)
+  (cond
+   ((null list1) nil)
+   ((null list2) nil) 
+   (t (cons (cons (car list1) (car list2)) (super-coq:zip (cdr list1) (cdr list2))))))
+
+(defun super-coq:join (list sep)
+  (mapconcat 'identity list sep))
+
+(defun super-coq:take-while (p ls)
+  (if (null ls)
+      nil
+    (if (apply p (list (car ls)))
+	(cons (car ls) (super-coq:take-while p (cdr ls)))
+      nil)))
+
+(defun super-coq:drop-while (p ls)
+  (if (null ls)
+      nil
+    (if (apply p (list (car ls)))
+	(super-coq:drop-while p (cdr ls))
+      ls)))
+
+(defun super-coq:next-element-randomly (element list)
+  (let ((removed-list (remove-if (lambda (e) (equal element e)) list)))
+    (nth (random (length removed-list)) removed-list)))
 
 ;; (super-coq:remove-info)
 ;; (defvar sample-goals (with-current-buffer (get-buffer "*goals*") (buffer-string)))
