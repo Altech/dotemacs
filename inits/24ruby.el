@@ -111,3 +111,9 @@
 
 ;; rdefsx
 (setq rdefsx-ruby-command "/Users/Altech/.rvm/rubies/ruby-1.9.3-p286/bin/ruby")
+
+(defun helm-ruby ()
+  (interactive)
+  (with-temp-buffer
+    (cd "~/dev/ruby-2.0.0-p247")
+    (helm-etags-select (thing-at-point 'symbol))))
