@@ -17,5 +17,8 @@
                 (setq css-indent-offset 2)
                 ))
 
+;; for LESS
+(require 'less-css-mode)
+
 ;; for Slim
 (require 'slim-mode)
