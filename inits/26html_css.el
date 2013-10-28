@@ -16,3 +16,6 @@
               (lambda ()
                 (setq css-indent-offset 2)
                 ))
+
+;; for Slim
+(require 'slim-mode)
