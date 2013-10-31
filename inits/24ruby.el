@@ -38,7 +38,7 @@
 	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
 	     (local-set-key (kbd "|") 'insert-block-params)
 	     (local-set-key (kbd "{") 'insert-block-pair)
-	     (local-set-key (kbd "C-;") 'anything-refe)
+	     (local-set-key (kbd "M-u h") 'anything-refe)
 	     (local-set-key (kbd "M-i") 'ruby-indent-command)
 	     (local-set-key (kbd "=") (smartchr '(" = " " == " "=")))
 	     (local-set-key (kbd "{") (smartchr '("{`!!'}" "#{`!!'}" "{")))
@@ -65,7 +65,7 @@
 
 ;; rdefsx
 (require 'rdefsx)
-(define-key ruby-mode-map (kbd "M-u r") 'anything-rdefsx)
+(define-key ruby-mode-map (kbd "C-;") 'anything-rdefsx)
 (if tool-bar-mode
     (rdefsx-auto-update-mode 1)
   )
@@ -110,10 +110,38 @@
 
 
 ;; rdefsx
-(setq rdefsx-ruby-command "/Users/Altech/.rvm/rubies/ruby-1.9.3-p286/bin/ruby")
+(setq rdefsx-ruby-command "/usr/local/bin/ruby")
 
 (defun helm-ruby ()
   (interactive)
   (with-temp-buffer
     (cd "~/dev/ruby-2.0.0-p247")
     (helm-etags-select (thing-at-point 'symbol))))
+
+;; gem
+(defun trim-string (string)
+  "Remove white spaces in beginning and ending of STRING.
+   White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
+  (replace-regexp-in-string "\\`[ \t\n]*" "" 
+    (replace-regexp-in-string "[ \t\n]*\\'" "" string)))
+ 
+ 
+(defun shell-command-to-string-with-return-code (command)
+  "Execute shell command COMMAND and return its output as a string."
+  (let* ((return-code)
+	 (result (with-output-to-string
+           (with-current-buffer standard-output
+              (setq return-code 
+               (call-process shell-file-name nil 
+                 t nil shell-command-switch command))))))
+    (list return-code result)))
+ 
+ 
+(defun find-gem (gem)
+  "Open a directory with the gem via Bundler."
+  (interactive "sGem: ")
+  (let* ((cmd (concat "bundle show " gem " --no-color"))
+         (result (shell-command-to-string-with-return-code cmd)))
+    (if (= (car result) 0)
+	(find-file (trim-string (cadr result)))
+      (message (trim-string (cadr result))))))
