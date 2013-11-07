@@ -21,7 +21,11 @@
 (add-hook 'slim-mode-hook
 	  (lambda ()
 	    (local-set-key (kbd "<M-right>") 'slim-indent-region-deeply)
-	    (local-set-key (kbd "<M-left>") 'slim-indent-region-shallowly)))
+	    (local-set-key (kbd "<M-left>") 'slim-indent-region-shallowly)
+	    ;; (local-set-key (kbd "DEL") 'delete-backward-char)
+	    ))
+
+;; (define-key slim-mode-map (kbd "<backspace>") 'delete-backward-char)
 
 (defun slim-indent-region-deeply (s e)
   (interactive "r")

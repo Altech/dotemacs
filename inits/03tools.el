@@ -167,6 +167,17 @@
     ))
 (defun helm-ctags-current-file ()
   (interactive)
-  (helm :sources 'helm-source-ctags
+  (helm :sources 'my-helm-source-ctags
         :buffer "*helm-ctags*"
         :candidate-number-limit nil))
+
+(defvar my-helm-source-ctags
+  (cons
+   '(action . (("Execute helm command" .
+		(lambda (candidate)
+		  (string-match "[0-9]+" candidate)
+		  (princ (current-buffer))
+		  (goto-line (string-to-number (match-string 0 candidate)))
+		  (recenter)))
+	       ("Describe command" . describe-command)))
+   helm-source-ctags))

@@ -40,7 +40,6 @@
 	     (local-set-key (kbd "{") 'insert-block-pair)
 	     (local-set-key (kbd "M-u h") 'anything-refe)
 	     (local-set-key (kbd "M-i") 'ruby-indent-command)
-	     (local-set-key (kbd "=") (smartchr '(" = " " == " "=")))
 	     (local-set-key (kbd "{") (smartchr '("{`!!'}" "#{`!!'}" "{")))
 	     ))
 
