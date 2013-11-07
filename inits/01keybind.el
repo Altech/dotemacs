@@ -83,6 +83,9 @@
 (global-set-key (kbd "<f7>") 'org-remember)
 ;; Utils
 (global-set-key (kbd "M-u M-y") 'paste-from-os-x)
+;; Code Reading
+(global-set-key (kbd "C-;") 'helm-ctags-current-file)
+(global-set-key (kbd "M-.") 'helm-etags-select)
 
 ;; Pressing simultaneously
 (require 'key-chord)
@@ -92,7 +95,7 @@
 ;; Grep
 (key-chord-define-global "rg" 'rgrep)
 ;; Evernote
-(key-chord-define-global (kbd "fj") 'ever-notes)
+(key-chord-define-global (kbd "en") 'ever-notes)
 
 (defun other-window-or-split ()
   (interactive)
