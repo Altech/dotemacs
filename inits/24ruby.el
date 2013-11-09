@@ -147,26 +147,40 @@
 
 ;; ====================== Rails ====================
 (add-to-list 'load-path "~/.emacs.d/rinari/")
-(add-to-list 'load-path "~/.emacs.d/rinari/jump")
+(add-to-list 'load-path "~/.emacs.d/jump")
 (require 'rinari)
 (global-rinari-mode 1)
 
-(add-hook 'rinari-minor-mode-hook (lambda ()
-				    ;; Correspond file
-				    (local-set-key (kbd "C-x c") 'rinari-find-controller)
-				    (local-set-key (kbd "C-x m") 'rinari-find-model)
-				    (local-set-key (kbd "C-x v") 'rinari-find-view)
-				    (local-set-key (kbd "C-x s") 'rinari-find-stylesheet)
-				    (local-set-key (kbd "C-x j") 'rinari-find-javascript)
-				    (local-set-key (kbd "C-x t") 'rinari-find-rspec)
-				    ;; Specific file
-				    (local-set-key (kbd "C-x r") 'rinari-find-routes)
-				    (local-set-key (kbd "C-x a") 'rinari-find-application)
-				    ;; Specific dir
-				    (local-set-key (kbd "C-x E") 'rinari-find-environment)
-				    (local-set-key (kbd "C-x B") 'rinari-find-bin)
-				    (local-set-key (kbd "C-x C") 'rinari-find-configuration)
-				    ))
+(add-hook 'rinari-minor-mode-hook
+	  (lambda ()
+	    ;; specialized rgrep
+	    (key-chord-define rinari-minor-mode-map "rg" 'rinari-rgrep)
+	    ;; Correspond file
+	    (local-set-key (kbd "C-x c") 'rinari-find-controller)
+	    (local-set-key (kbd "C-x m") 'rinari-find-model)
+	    (local-set-key (kbd "C-x v") 'rinari-find-view)
+	    (local-set-key (kbd "C-x s") 'rinari-find-stylesheet)
+	    (local-set-key (kbd "C-x j") 'rinari-find-javascript)
+	    (local-set-key (kbd "C-x t") 'rinari-find-rspec)
+	    (local-set-key (kbd "C-x M") 'rinari-find-migration)
+	    ;; Specific file
+	    (local-set-key (kbd "C-x r") 'rinari-find-routes)
+	    (local-set-key (kbd "C-x g") 'rinari-find-gemfile)
+	    (local-set-key (kbd "C-x a") 'rinari-find-application)
+	    ;; Specific dir
+	    (local-set-key (kbd "C-x e") 'rinari-find-environment)
+	    (local-set-key (kbd "C-x b") 'rinari-find-bin)
+	    (local-set-key (kbd "C-x C") 'rinari-find-configuration)
+	    ;; Command
+	    (local-set-key (kbd "C-c c") 'rinari-console)
+	    (local-set-key (kbd "C-c C") 'rinari-console-restart)
+	    (local-set-key (kbd "C-c r") 'rinari-rake)
+	    (local-set-key (kbd "C-c s") 'rinari-web-server)
+	    (local-set-key (kbd "C-c S") 'rinari-web-server-restart)
+	    (add-to-list 'popwin:special-display-config '("*rails console*"))
+	    (add-to-list 'popwin:special-display-config '("*rake*"))
+	    ))
+(require 'compile24); to use rinari-server in Emacs23
 
 ;; (define-key pd-rinari-map1 "'" 'rinari-find-by-context)
 ;; (define-key pd-rinari-map1 ";" 'rinari-find-by-context)
