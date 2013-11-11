@@ -36,6 +36,8 @@
 	     (local-set-key (kbd "C-M-j") 'ruby-backward-sexp)
 	     (local-set-key (kbd "C-M-SPC") 'ruby-mark-sexp)
 	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
+	     (local-set-key (kbd "C-j") 'backward-char)
+	     (local-set-key (kbd "M-j") 'backward-word)
 	     (local-set-key (kbd "|") 'insert-block-params)
 	     (local-set-key (kbd "{") 'insert-block-pair)
 	     (local-set-key (kbd "M-u h") 'anything-refe)
