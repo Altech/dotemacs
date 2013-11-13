@@ -50,7 +50,10 @@
 	  (let ((buf-lines (count-lines (point-min) (point-max))))
 	    (beginning-of-buffer)
 	    (dotimes (i buf-lines)
-	      (delete-char 2) 
+	      (if (equal (thing-at-point 'char) " ")
+		  (delete-char 1))
+	      (if (equal (thing-at-point 'char) " ")
+		  (delete-char 1))
 	      (next-line)
 	      (beginning-of-line)))))))
 
