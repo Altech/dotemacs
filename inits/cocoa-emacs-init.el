@@ -63,6 +63,10 @@
 (setq ns-pop-up-frames nil)
 ;; dictionary
 (global-set-key (kbd "C-c w") 'look-up-current-word-in-dictionary-app)
+;; eshell
+(dolist (path (reverse (split-string (getenv "PATH") ":")))
+  (add-to-list 'exec-path path))
+(load-file (expand-file-name "~/.emacs.d/shellenv.el"))
 
 ;; Convert utf-16lc -> utf-8
 ;; [TODO] Remove(this code require revert-buffer.)

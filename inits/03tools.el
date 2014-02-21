@@ -28,7 +28,6 @@
 (global-set-key (kbd "C-x C-z") 'open-junk-file)
 (setq open-junk-file-format "~/dev/junk/%Y-%m-%d-%H-%M.")
 
-
 ;; auto-complete
 (add-to-list 'load-path "~/.emacs.d/auto-complete/")
 (require 'auto-complete)
