@@ -43,12 +43,18 @@
 (dolist (mode-hook (list 'org-mode-hook 'markdown-mode-hook 'text-mode-hook))
   (add-hook mode-hook 'set-japanese-text-style))
 
+;; print
+(load "ps-mule")
+(setq ps-multibyte-buffer (quote non-latin-printer))
+(setq ps-print-header nil)
+
 ;; ** Other **
 ;; Kill and hide
 (global-set-key (kbd "C-x C-c") 'close-on-mac)
 (global-set-key (kbd "C-x C-d") 'save-buffers-kill-terminal)
 ;; fullscreen
-(global-set-key (kbd "<f11>") 'ns-toggle-fullscreen)
+(setq ns-use-native-fullscreen nil)
+(global-set-key (kbd "<f11>") 'toggle-frame-fullscreen)
 ;; hide at start
 (add-hook 'emacs-startup-hook 'iconify-frame)
 ;; remove scroll bar
@@ -76,7 +82,6 @@
     (let ((path (concat ever-rendered-dir (match-string 0 this-file-name-sans-extension) ".html")))
       (shell-command (concat "open " path)))))
 (global-set-key (kbd "C-c p") 'ever-open-rendered)
-
 
 (require 'cl)
 (defun close-buffers-without-default ()

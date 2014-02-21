@@ -2,4 +2,5 @@
 (setq exec-path (cons "/usr/local/lib/erlang/bin/" exec-path))
 (add-to-list 'load-path "~/.emacs.d/Erlang")
 (require 'erlang-start)
+(require 'erlang)
 (define-key erlang-mode-map (kbd "M-.") 'helm-etags-select)

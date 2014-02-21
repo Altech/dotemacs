@@ -95,7 +95,7 @@
 ;; Grep
 (key-chord-define-global "rg" 'rgrep)
 ;; Evernote
-(key-chord-define-global (kbd "en") 'ever-notes)
+(key-chord-define-global (kbd "jf") 'ever-notes)
 
 (defun other-window-or-split ()
   (interactive)

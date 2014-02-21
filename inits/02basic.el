@@ -47,3 +47,5 @@
 (setq make-backup-files nil)
 ;; Generic mode
 (require 'generic-x)
+;; Indent
+(setq-default tab-width 8 indent-tabs-mode nil)
