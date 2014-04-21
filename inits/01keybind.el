@@ -1,6 +1,8 @@
 ;; perefix
 ;; (global-unset-key (kbd "C-u")) ;; Utility
 (global-unset-key (kbd "M-u")) ;; Utility
+;; Find file from yank
+(global-set-key (kbd "C-x y") 'find-file-from-yank)
 ;; Save buffer
 (global-set-key (kbd "C-x C-s") 'save-buffer-with-mkdir)
 ;; Kill buffer
@@ -153,3 +155,19 @@
 (defun paste-from-os-x ()
   (interactive)
   (insert (shell-command-to-string "pbpaste")))
+
+(defun find-file-from-yank ()
+  (interactive)
+  (let ((path (get-path-to-find-file-from-yank)))
+    (if path
+        (if (file-exists-p path)
+            (find-file path)
+          (message "No such file or directory."))
+      (message "There is no path in clipboard."))))
+
+(defun get-path-to-find-file-from-yank ()
+  (let ((osx-pasteboard (trim-string (shell-command-to-string "pbpaste"))) (emacs-killring (substring-no-properties (current-kill 0))))
+    (cond
+     ((or (string-match "^/" osx-pasteboard) (string-match "^~/" osx-pasteboard)) osx-pasteboard)
+     ((or (string-match "^/" emacs-killring) (string-match "^~/" emacs-killring)) emacs-killring)
+     (t nil))))

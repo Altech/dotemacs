@@ -38,15 +38,16 @@
 (defun set-japanese-text-style ()
   (interactive)
   (buffer-face-set 'variable-pitch)
-  (setq line-spacing 0.6) ;;0.4
+  (setq line-spacing 0.8) ;;0.4
   (setq truncate-lines nil))
 (dolist (mode-hook (list 'org-mode-hook 'markdown-mode-hook 'text-mode-hook))
   (add-hook mode-hook 'set-japanese-text-style))
 
 ;; print
-(load "ps-mule")
-(setq ps-multibyte-buffer (quote non-latin-printer))
-(setq ps-print-header nil)
+;; (load "ps-mule")
+;; (setq ps-multibyte-buffer (quote non-latin-printer))
+;; (setq ps-print-header nil)
+(global-set-key (kbd "s-p") 'ps-print-buffer)
 
 ;; ** Other **
 ;; Kill and hide
