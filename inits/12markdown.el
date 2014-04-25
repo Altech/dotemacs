@@ -1,8 +1,9 @@
 ;; for markdown
-(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.mkd" . markdown-mode) auto-mode-alist))
-(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
-(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
-
+(require-package 'markdown-mode)
+(require 'markdown-mode)
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
+(dolist (extension '("\\.mkd" "\\.md" "\\.markdown"))
+  (setq auto-mode-alist (cons `(,extension . markdown-mode) auto-mode-alist)))
 
 (key-chord-define-global "ac" 'rgrep)
 

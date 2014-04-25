@@ -19,6 +19,7 @@
 	     (local-set-key (kbd "C-c C-s") 'scheme-other-window)
 	     ))
 
+(require-package 'paredit)
 (require 'paredit)
 (add-hook 'scheme-mode-hook 'enable-paredit-mode)
 

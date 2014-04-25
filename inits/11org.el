@@ -53,7 +53,7 @@ C-uをつけると1レベル上、C-u C-uをつけると1レベル下の見出�
 ;; Latex
 (require 'org-compat)
 (require 'org-list)
-(require 'ox-latex); => ox-latex
+(require 'org-latex)
 (add-to-list 'org-export-latex-classes
   '("jreport"
     "\\documentclass[a4j]{jreport}"

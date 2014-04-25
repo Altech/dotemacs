@@ -1,15 +1,8 @@
-
 ;; for HTML
-;; (require 'zencoding-mode) 
-;; (add-hook 'zencoding-mode-hook
-;; 	  (lambda ()
-;; 	     (local-set-key (kbd "k") 'self-insert-command)
-;; 	     (global-set-key (kbd "C-j") 'backward-char)
-;; 	     (local-set-key (kbd "C-j") 'backward-char)))
-;; (add-hook 'sgml-mode-hook 'zencoding-mode)
 (define-key html-mode-map (kbd "C-c p") 'browse-url-of-buffer)
 
 ;; for SCSS
+(require-package 'scss-mode)
 (autoload 'scss-mode "scss-mode")
 (setq scss-compile-at-save nil) ;; 自動コンパイルをオフにする
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
@@ -20,9 +13,11 @@
                 ))
 
 ;; for LESS
+(require-package 'less-css-mode)
 (require 'less-css-mode)
 
 ;; for Slim
+(require-package 'slim-mode)
 (require 'slim-mode)
 
 (add-hook 'slim-mode-hook

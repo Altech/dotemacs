@@ -1,4 +1,4 @@
-(load-file "~/.emacs.d/ProofGeneral-4.2/generic/proof-site.el")
+(load-file "~/.emacs.d/lisp/ProofGeneral-4.2/generic/proof-site.el")
 
 
 (defun turn-on-my-coq-settings ()

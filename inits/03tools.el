@@ -1,3 +1,15 @@
+(require-package 'anything)
+(require-package 'helm)
+(require-package 'git-gutter)
+(require-package 'yasnippet)
+(require-package 'dropdown-list)
+(require-package 'highlight-symbol)
+(require-package 'rotate)
+(require-package 'emamux)
+(require-package 'open-junk-file)
+(require-package 'popwin)
+(require-package 'auto-complete)
+
 ;; anything
 (require 'anything-startup)
 (setq migemo-isearch-min-length 2)
@@ -5,8 +17,6 @@
 (require 'anything-match-plugin)
 ;; helm
 (require 'helm-config)
-;; tramp
-(require 'tramp "~/.emacs.d/tramp/tramp")
 ;; popwin
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
@@ -18,7 +28,7 @@
 (add-to-list 'popwin:special-display-config '("*refe:ACL*")) ;; [TODO]
 (push '("\*refe" :regexp t :position top) popwin:special-display-config) ;; [TODO]
 ;; git
-(add-to-list 'load-path "~/.emacs.d/magit")
+(add-to-list 'load-path "~/.emacs.d/lisp/magit")
 (require 'magit)
 (require 'git-gutter)
 (global-git-gutter-mode 1)
@@ -29,7 +39,6 @@
 (setq open-junk-file-format "~/dev/junk/%Y-%m-%d-%H-%M.")
 
 ;; auto-complete
-(add-to-list 'load-path "~/.emacs.d/auto-complete/")
 (require 'auto-complete)
 (global-auto-complete-mode t)
 (setq ac-auto-start 4)
@@ -57,7 +66,6 @@
 			  ))
 
 ;; yasnippet
-(add-to-list 'load-path "~/.emacs.d/elpa/yasnippet-20120923.1126")
 (require 'yasnippet-config)
 (require 'dropdown-list)
 (yas/global-mode 1)
@@ -132,7 +140,6 @@
 
 ;; layout
 (require 'rotate)
-;; (global-set-key (kbd "C-t") 'rotate-layout)
 (global-set-key (kbd "M-t") 'rotate-window)
 
 

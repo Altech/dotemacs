@@ -20,6 +20,7 @@
 (global-set-key (kbd "\'") 'skeleton-pair-insert-maybe)
 (setq skeleton-pair 1)
 ;; Compile
+(require-package 'quickrun)
 (require 'quickrun)
 (global-set-key (kbd "C-c c") 'compile)
 (global-set-key (kbd "C-c r") 'quickrun)

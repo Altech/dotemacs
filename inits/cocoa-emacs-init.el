@@ -1,3 +1,18 @@
+;; ** Kill and Hide Emacs
+(global-set-key (kbd "C-x C-c") 'close-on-mac)
+(global-set-key (kbd "C-x C-d") 'save-buffers-kill-terminal)
+
+(defun close-on-mac ()
+  (interactive)
+  (close-buffers-without-default)
+  (switch-to-buffer "*GNU Emacs*")
+  (delete-other-windows)
+  (delete-other-frames)
+  (beginning-of-buffer)
+  (ns-do-hide-emacs)
+  (if (and (> (frame-width) 155) (> (frame-height) 43))
+      (ns-toggle-fullscreen)))
+
 ;; ** View **
 ;; font
 (set-face-attribute 'default nil
@@ -21,11 +36,9 @@
                     :height 130) ;; 130 markdown/org // 200
 
 ;; color
-(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized")
 (require 'color-theme)
-(require 'color-theme-solarized)
 (color-theme-initialize)
-(color-theme-tango) ;; or (color-theme-my-xp), (emacs-color-theme-solarized-[dark|light])
+(color-theme-tango)
 
 ;; transparency
 (defun set-frame-transparent ()
@@ -50,9 +63,6 @@
 (global-set-key (kbd "s-p") 'ps-print-buffer)
 
 ;; ** Other **
-;; Kill and hide
-(global-set-key (kbd "C-x C-c") 'close-on-mac)
-(global-set-key (kbd "C-x C-d") 'save-buffers-kill-terminal)
 ;; fullscreen
 (setq ns-use-native-fullscreen nil)
 (global-set-key (kbd "<f11>") 'toggle-frame-fullscreen)
@@ -98,17 +108,6 @@
 		       (not (string= (buffer-name buffer) "*scratch*"))
 		       (not (string= (buffer-name buffer) "*Messages*")))
 		  (kill-buffer buffer))) buffer)))
-
-(defun close-on-mac ()
-  (interactive)
-  (close-buffers-without-default)
-  (switch-to-buffer "*GNU Emacs*")
-  (delete-other-windows)
-  (delete-other-frames)
-  (beginning-of-buffer)
-  (ns-do-hide-emacs)
-  (if (and (> (frame-width) 155) (> (frame-height) 43))
-      (ns-toggle-fullscreen)))
 
 (defun look-up-current-word-in-dictionary-app ()
   (interactive)

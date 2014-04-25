@@ -1,4 +1,5 @@
-(add-to-list 'load-path "~/.emacs.d/haskell-mode")
+(require-package 'haskell-mode)
+
 (require 'haskell-mode)
 (require 'haskell-cabal)
 
@@ -261,7 +262,8 @@
 (add-to-list 'load-path ".")
 ;; Always load via this. If you contribute you should run `make all`
 ;; to regenerate this.
-(load "haskell-site-file")
+;; ************ [DEPRECATED] ************
+;; (load "haskell-site-file")
 
 ;; Customization
 (custom-set-variables

@@ -3,11 +3,13 @@
 (define-key iimage-mode-map (kbd "C-l") nil)
 (add-hook 'text-mode-hook 'turn-on-iimage-mode)
 ;; for yaml-mode
+(require-package 'yaml-mode)
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
 
-;; for dired 
+;; for dired
+(require-package 'dired-details)
 (require 'dired) ;; [TODO]
 (defun dired-start-eshell (arg)
  "diredで選択されたファイル名がペーストされた状態で、eshellを起動する。"

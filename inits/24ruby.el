@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d/ruby/")
+(add-to-list 'load-path "~/.emacs.d/lisp/ruby/")
 (autoload 'ruby-mode "ruby-mode"
   "Mode for editing ruby source files" t)
 
@@ -30,7 +30,6 @@
 ;; (autoload 'inf-ruby-keys "inf-ruby"
 ;;   "Set local key defs for inf-ruby in ruby-mode")
 
-(require 'smartchr)
 (add-hook 'ruby-mode-hook
           '(lambda ()
              ;; (inf-ruby-keys)
@@ -43,7 +42,6 @@
 	     (local-set-key (kbd "{") 'insert-block-pair)
 	     (local-set-key (kbd "M-u h") 'anything-refe)
 	     (local-set-key (kbd "M-i") 'ruby-indent-command)
-	     (local-set-key (kbd "{") (smartchr '("{`!!'}" "#{`!!'}" "{")))
 	     ))
 
 (defun ruby-mark-sexp ()
@@ -57,7 +55,7 @@
 ;; (add-to-list 'load-path "~/.emacs.d/rinari")
 ;; (require 'rinari)
 ;;  - rhtml-mode
-(add-to-list 'load-path "~/.emacs.d/rhtml")
+(require-package 'rhtml-mode)
 (require 'rhtml-mode)
 ;; (lambda () (rinari-launch)))
 
@@ -140,8 +138,9 @@
  
 
 ;; ====================== Rails ====================
-(add-to-list 'load-path "~/.emacs.d/rinari/")
-(add-to-list 'load-path "~/.emacs.d/jump")
+(add-to-list 'load-path "~/.emacs.d/lisp/jump")
+(add-to-list 'load-path "~/.emacs.d/lisp/rinari/")
+(require 'findr)
 (require 'rinari)
 (global-rinari-mode 1)
 
@@ -174,7 +173,6 @@
 	    (add-to-list 'popwin:special-display-config '("*rails console*"))
 	    (add-to-list 'popwin:special-display-config '("*rake*"))
 	    ))
-(require 'compile24); to use rinari-server in Emacs23
 
 ;; (define-key pd-rinari-map1 "'" 'rinari-find-by-context)
 ;; (define-key pd-rinari-map1 ";" 'rinari-find-by-context)

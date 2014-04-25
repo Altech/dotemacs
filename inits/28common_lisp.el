@@ -1,5 +1,5 @@
 ;; for Common Lisp (Clozure CL)
-(add-to-list 'load-path "~/.emacs.d/slime/")
+(require-package 'slime)
 ;;; Note that if you save a heap image, the character
 ;;; encoding specified on the command line will be preserved,
 ;;; and you won't have to specify the -K utf-8 any more.

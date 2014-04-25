@@ -1,3 +1,4 @@
+(require-package 'coffee-mode)
 (require 'coffee-mode)
 
 (setq whitespace-action '(auto-cleanup)) ;; automatically clean up bad whitespace
