@@ -33,14 +33,12 @@
 
 ;; exec path
 (defvar my-exec-path (list
-		      "/Users/Altech/Library/Haskell/bin"
 		      "/usr/sbin"
 		      "/bin"
 		      "/usr/bin"
 		      "/opt/local/bin"
 		      "/usr/local/bin"
 		      (expand-file-name "~/.emacs.d/bin")
-		      "/Users/Altech/.rvm/gems/ruby-1.9.3-p286/bin"
 		      "/Users/Altech/dev/scripts"
 		      ))
 (dolist (dir my-exec-path)

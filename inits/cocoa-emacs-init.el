@@ -21,7 +21,7 @@
                     :height 130) ;; 130 markdown/org // 200
 
 ;; color
-(add-to-list 'load-path "/Users/Altech/.emacs.d/emacs-color-theme-solarized")
+(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized")
 (require 'color-theme)
 (require 'color-theme-solarized)
 (color-theme-initialize)
@@ -67,7 +67,7 @@
 ;; eshell
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
-(load-file (expand-file-name "~/.emacs.d/shellenv.el"))
+(load-file "~/.emacs.d/shellenv.el")
 
 ;; Convert utf-16lc -> utf-8
 ;; [TODO] Remove(this code require revert-buffer.)
@@ -77,16 +77,17 @@
   (ucs-normalize-NFC-region (point-min) (point-max)))
 
 ;; ever-mode
-(add-to-list 'load-path "~/dev/ever-mode")
-(require 'ever-mode)
-(defconst ever-rendered-dir "/Users/Altech/Documents/Dropbox/RNotes/")
-(defun ever-open-rendered ()
-  (interactive)
-  (let ((this-file-name-sans-extension (file-name-sans-extension (file-name-nondirectory (buffer-file-name (current-buffer))))))
-    (string-match "^[^_]+" this-file-name-sans-extension)
-    (let ((path (concat ever-rendered-dir (match-string 0 this-file-name-sans-extension) ".html")))
-      (shell-command (concat "open " path)))))
-(global-set-key (kbd "C-c p") 'ever-open-rendered)
+(if (file-exists-p "~/dev/ever-mode")
+    (add-to-list 'load-path "~/dev/ever-mode")
+  (require 'ever-mode)
+  (defconst ever-rendered-dir "/Users/Altech/Documents/Dropbox/RNotes/")
+  (defun ever-open-rendered ()
+    (interactive)
+    (let ((this-file-name-sans-extension (file-name-sans-extension (file-name-nondirectory (buffer-file-name (current-buffer))))))
+      (string-match "^[^_]+" this-file-name-sans-extension)
+      (let ((path (concat ever-rendered-dir (match-string 0 this-file-name-sans-extension) ".html")))
+        (shell-command (concat "open " path)))))
+  (global-set-key (kbd "C-c p") 'ever-open-rendered))
 
 (require 'cl)
 (defun close-buffers-without-default ()

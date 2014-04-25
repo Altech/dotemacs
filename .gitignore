@@ -5,5 +5,7 @@
 ac-comphist.dat
 emacs.bmk
 
+shellenv.el
+
 /backup
 /auto-save-list
