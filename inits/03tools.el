@@ -54,7 +54,7 @@
 (define-key ac-completing-map (kbd "RET") nil) ;; and modified auto-complete-el for cocoa-emcas.
 (require 'auto-complete-config)
 (setq-default ac-sources (list
-			  ac-source-yasnippet
+                          ac-source-yasnippet
 			  ac-source-words-in-same-mode-buffers
 			  ac-source-filename
 			  ac-source-functions
@@ -69,8 +69,8 @@
 (require 'yasnippet-config)
 (require 'dropdown-list)
 (yas/global-mode 1)
-(call-interactively 'yas/reload-all)
-(yas/load-directory "~/.emacs.d/snippets/")
+;; (call-interactively 'yas/reload-all)
+;; (yas/load-directory "~/.emacs.d/snippets/")
 ;; if you use anything-complete.el, (yas/completing-prompt) is possible.
 (setq yas/prompt-functions
       '(yas/dropdown-prompt yas/completing-prompt yas/ido-prompt yas/no-prompt))
