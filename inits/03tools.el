@@ -97,12 +97,14 @@
 ;; highlight symbol
 (require 'highlight-symbol)
 
-
 ;; file rename
-;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
+  (interactive (list (read-string "new file name: "
+                                  (file-name-nondirectory buffer-file-name)
+                                  nil
+                                  (file-name-nondirectory buffer-file-name)
+                                  (file-name-nondirectory buffer-file-name))))
   (let ((name (buffer-name))
         (filename (buffer-file-name)))
     (if (not filename)
