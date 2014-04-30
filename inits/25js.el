@@ -6,8 +6,8 @@
 
 (add-hook 'js2-mode-hook
              #'(lambda ()
-               (seta-default js2-basic-offset 2)
-               (local-set-key (kbd "M-j") 'backward-word)))
+                 (setq-default js2-basic-offset 2)
+                 (local-set-key (kbd "M-j") 'backward-word)))
 
 (defun my-indent-sexp ()
   (interactive)
