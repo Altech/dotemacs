@@ -87,8 +87,8 @@
   (ucs-normalize-NFC-region (point-min) (point-max)))
 
 ;; ever-mode
-(if (file-exists-p "~/dev/ever-mode")
-    (add-to-list 'load-path "~/dev/ever-mode")
+(when (file-exists-p "~/dev/ever-mode")
+  (add-to-list 'load-path "~/dev/ever-mode")
   (require 'ever-mode)
   (defconst ever-rendered-dir "/Users/Altech/Documents/Dropbox/RNotes/")
   (defun ever-open-rendered ()
