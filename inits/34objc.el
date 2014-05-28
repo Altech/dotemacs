@@ -14,3 +14,5 @@
          (reversed-filename (concat sans-extension "." reversed-extension)))
     (when (and reversed-extension (file-exists-p reversed-filename))
       (find-file reversed-filename))))
+
+(add-to-list 'auto-mode-alist '("Podfile" . ruby-mode))
