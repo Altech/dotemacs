@@ -66,6 +66,7 @@
 ;; rdefsx
 (require 'rdefsx)
 (define-key ruby-mode-map (kbd "C-;") 'anything-rdefsx)
+(custom-set-variables `(rdefsx-command ,(expand-file-name "~/.emacs.d/bin/rdefsx")))
 (if tool-bar-mode
     (rdefsx-auto-update-mode 1)
   )
