@@ -42,3 +42,6 @@
 ;; bookmark
 (set-default 'bookmark-default-file "~/.emacs.d/emacs.bmk")
 
+(setq initial-buffer-choice t)
+(setq initial-scratch-message "# MEMO\n")
+(setq initial-major-mode 'markdown-mode)

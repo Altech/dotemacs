@@ -168,7 +168,7 @@
 	    ;; Command
 	    (local-set-key (kbd "C-c c") 'rinari-console)
 	    (local-set-key (kbd "C-c C") 'rinari-console-restart)
-	    (local-set-key (kbd "C-c r") 'rinari-rake)
+	    ;; (local-set-key (kbd "C-c r") 'rinari-rake)
 	    (local-set-key (kbd "C-c s") 'rinari-web-server)
 	    (local-set-key (kbd "C-c S") 'rinari-web-server-restart)
 	    (add-to-list 'popwin:special-display-config '("*rails console*"))
