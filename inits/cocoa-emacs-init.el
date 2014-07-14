@@ -5,7 +5,7 @@
 (defun close-on-mac ()
   (interactive)
   (close-buffers-without-default)
-  (switch-to-buffer "*GNU Emacs*")
+  (switch-to-buffer "*scratch*")
   (delete-other-windows)
   (delete-other-frames)
   (beginning-of-buffer)
