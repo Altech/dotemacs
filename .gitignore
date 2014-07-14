@@ -5,6 +5,7 @@
 ac-comphist.dat
 emacs.bmk
 shellenv.el
+tramp
 
 /elpa
 /backup
