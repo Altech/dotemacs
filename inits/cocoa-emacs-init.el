@@ -8,7 +8,7 @@
   (switch-to-buffer "*scratch*")
   (delete-other-windows)
   (delete-other-frames)
-  (beginning-of-buffer)
+  (end-of-buffer)
   (ns-do-hide-emacs)
   (if (and (> (frame-width) 155) (> (frame-height) 43))
       (ns-toggle-fullscreen)))
