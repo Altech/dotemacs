@@ -8,6 +8,3 @@
   (setq java-indent-level 2)
   )
 (add-hook 'java-mode-hook 'my-java-mode-hook)
-;; (add-to-list 'load-path "~/.emacs.d/ajc-java-complete") ;; IDE-like?
-;; (require 'ajc-java-complete-config) ;;補完
-;; (add-hook 'java-mode-hook 'ajc-java-complete-mode)

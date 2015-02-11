@@ -1,5 +1,7 @@
 ;; for HTML
-(define-key html-mode-map (kbd "C-c p") 'browse-url-of-buffer)
+(add-hook 'html-mode-hook
+          (lambda ()
+            (define-key html-mode-map (kbd "C-c p") 'browse-url-of-buffer)))
 
 ;; for SCSS
 (require-package 'scss-mode)
@@ -47,7 +49,6 @@
 	      (insert "  ")
 	      (next-line)
 	      (beginning-of-line)))))))
-
 
 (defun slim-indent-region-shallowly (s e)
   (interactive "r")

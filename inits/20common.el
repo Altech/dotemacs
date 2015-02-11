@@ -1,17 +1,16 @@
 ;; desiplay line-number
 (dolist (hook (list
-              'c-mode-hook
-              'java-mode-hook
-              'js2-mode-hook
-	      'ruby-mode-hook
-	      'oz-mode-hook
-              ;;'emacs-lisp-mode-hook
-              'lisp-interaction-mode-hook
-              'lisp-mode-hook
-              'java-mode-hook
-              'sh-mode-hook
-              ))
-(add-hook hook (lambda () (linum-mode t))))
+               'c-mode-hook
+               'java-mode-hook
+               'js2-mode-hook
+               'ruby-mode-hook
+               'oz-mode-hook
+               ;;'emacs-lisp-mode-hook
+               'lisp-interaction-mode-hook
+               'lisp-mode-hook
+               'java-mode-hook
+               'sh-mode-hook))
+  (add-hook hook (lambda () (linum-mode t))))
 ;; Bucket supplement
 (global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
 (global-set-key (kbd "{") 'skeleton-pair-insert-maybe)

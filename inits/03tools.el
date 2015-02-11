@@ -1,12 +1,11 @@
 (require-package 'anything)
-(require-package 'helm)
+;; (require-package 'helm)
+;; (require-package 'magit)
+(add-to-list 'load-path "~/.emacs.d/lisp/magit")
+(require 'magit)
 (require-package 'git-gutter)
-(require-package 'yasnippet)
 (require-package 'dropdown-list)
 (require-package 'highlight-symbol)
-(require-package 'rotate)
-(require-package 'emamux)
-(require-package 'open-junk-file)
 (require-package 'popwin)
 (require-package 'auto-complete)
 
@@ -15,28 +14,24 @@
 (setq migemo-isearch-min-length 2)
 (anything-read-string-mode 0) ;; for ido-mode [TODO]
 (require 'anything-match-plugin)
-;; helm
-(require 'helm-config)
+;; ;; helm
+;; (require 'helm-config)
 ;; popwin
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
-(add-to-list 'popwin:special-display-config '("*quickrun*"))
-(add-to-list 'popwin:special-display-config '("*compilation*"))
-(add-to-list 'popwin:special-display-config '("* Oz Compiler*"))
-(add-to-list 'popwin:special-display-config '("*buffer-selection*"))
-(add-to-list 'popwin:special-display-config '("*git-gutter:diff*"))
-(add-to-list 'popwin:special-display-config '("*refe:ACL*")) ;; [TODO]
+(dolist (buffer-name '("*quickrun*"
+                       "*compilation*"
+                       "*buffer-selection*"
+                       "*git-gutter:diff*"
+                       "* Oz Compiler*"
+                       "*refe:ACL*"))
+  (add-to-list 'popwin:special-display-config (list buffer-name)))
 (push '("\*refe" :regexp t :position top) popwin:special-display-config) ;; [TODO]
 ;; git
-(add-to-list 'load-path "~/.emacs.d/lisp/magit")
 (require 'magit)
 (require 'git-gutter)
 (global-git-gutter-mode 1)
 (setq git-gutter:verbosity 0)
-;; junk file
-(require 'open-junk-file)
-(global-set-key (kbd "C-x C-z") 'open-junk-file)
-(setq open-junk-file-format "~/dev/junk/%Y-%m-%d-%H-%M.")
 
 ;; auto-complete
 (require 'auto-complete)
@@ -54,8 +49,7 @@
 (define-key ac-completing-map (kbd "RET") nil) ;; and modified auto-complete-el for cocoa-emcas.
 (require 'auto-complete-config)
 (setq-default ac-sources (list
-                          ac-source-yasnippet
-			  ac-source-words-in-same-mode-buffers
+                          ac-source-words-in-same-mode-buffers
 			  ac-source-filename
 			  ac-source-functions
 			  ac-source-variables
@@ -64,23 +58,6 @@
 			  ac-source-abbrev
 			  ac-source-dictionary
 			  ))
-
-;; yasnippet
-(require 'yasnippet-config)
-(require 'dropdown-list)
-(yas/global-mode 1)
-;; (call-interactively 'yas/reload-all)
-;; (yas/load-directory "~/.emacs.d/snippets/")
-;; if you use anything-complete.el, (yas/completing-prompt) is possible.
-(setq yas/prompt-functions
-      '(yas/dropdown-prompt yas/completing-prompt yas/ido-prompt yas/no-prompt))
-;;; with anything
-(require 'anything)
-(require 'anything-c-yasnippet-2)
-;;; with auto-complete
-(yas/set-ac-modes)
-(yas/enable-emacs-lisp-paren-hack)
-
 
 ;; server start for emacs-client
 (require 'server)
@@ -117,34 +94,6 @@
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
 
-;; cooperate with tmux 
-(require 'emamux)
-
-(defun tmux-paste ()
-  (interactive)
-  (let ((tmpfile (make-temp-file "tmux-paste-"))) ; 一時ファイル作成
-    (emamux:tmux-run-command (concat "save-buffer " tmpfile)) ; ペーストバッファを一時ファイルに書き込む
-    (insert-file tmpfile)    ; 一時ファイルの内容をバッファに挿入
-    (delete-file tmpfile))   ; 一時ファイルを削除
-  (exchange-point-and-mark)) ; 末尾までカーソルを移動
-
-(defun tmux-copy ()
-  (interactive)
-  (progn
-    (kill-ring-save (region-beginning) (region-end))
-    (emamux:copy-kill-ring 0)
-    )
-  )
-
-(global-set-key (kbd "C-\\") 'emamux:send-command)
-(global-set-key (kbd "C-]")     'tmux-paste)
-(global-set-key (kbd "M-u M-w") 'tmux-copy)
-
-;; layout
-(require 'rotate)
-(global-set-key (kbd "M-t") 'rotate-window)
-
-
 (defun altech:git-gutter:popup-hunk (&optional diffinfo)
   "popup current diff hunk"
   (interactive)
@@ -159,33 +108,33 @@
       (pop-to-buffer (current-buffer))
       )))
 
-;; helm extension
-(require 'helm-tags)
-(setq helm-ctags-modes
-  '( c-mode c++-mode awk-mode csharp-mode java-mode javascript-mode lua-mode
-    makefile-mode pascal-mode perl-mode cperl-mode php-mode python-mode
-    scheme-mode sh-mode slang-mode sql-mode tcl-mode
-    ;; Added more modes
-    lisp-mode emacs-lisp-mode asp-mode basic-mode cobol-mode
-    objc-mode css-mode js2-mode matlab-mode ocaml-mode
-    web-mode dos-mode batch-mode ntcmd-mode cmd-mode javascript-generic-mode
-    eiffel-mode erlang-mode fortran-mode go-mode html-mode ruby-mode
-    sml-mode tex-mode latex-mode yatex-mode vera-mode
-    verilog-mode vhdl-mode
-    ))
-(defun helm-ctags-current-file ()
-  (interactive)
-  (helm :sources 'my-helm-source-ctags
-        :buffer "*helm-ctags*"
-        :candidate-number-limit nil))
+;; ;; helm extension
+;; (require 'helm-tags)
+;; (setq helm-ctags-modes
+;;   '(c-mode c++-mode awk-mode csharp-mode java-mode javascript-mode lua-mode
+;;     makefile-mode pascal-mode perl-mode cperl-mode php-mode python-mode
+;;     scheme-mode sh-mode slang-mode sql-mode tcl-mode
+;;     ;; Added more modes
+;;     lisp-mode emacs-lisp-mode asp-mode basic-mode cobol-mode
+;;     objc-mode css-mode js2-mode matlab-mode ocaml-mode
+;;     web-mode dos-mode batch-mode ntcmd-mode cmd-mode javascript-generic-mode
+;;     eiffel-mode erlang-mode fortran-mode go-mode html-mode ruby-mode
+;;     sml-mode tex-mode latex-mode yatex-mode vera-mode
+;;     verilog-mode vhdl-mode
+;;     ))
+;; (defun helm-ctags-current-file ()
+;;   (interactive)
+;;   (helm :sources 'my-helm-source-ctags
+;;         :buffer "*helm-ctags*"
+;;         :candidate-number-limit nil))
 
-(defvar my-helm-source-ctags
-  (cons
-   '(action . (("Execute helm command" .
-		(lambda (candidate)
-		  (string-match "[0-9]+" candidate)
-		  (princ (current-buffer))
-		  (goto-line (string-to-number (match-string 0 candidate)))
-		  (recenter)))
-	       ("Describe command" . describe-command)))
-   helm-source-ctags))
+;; (defvar my-helm-source-ctags
+;;   (cons
+;;    '(action . (("Execute helm command" .
+;; 		(lambda (candidate)
+;; 		  (string-match "[0-9]+" candidate)
+;; 		  (princ (current-buffer))
+;; 		  (goto-line (string-to-number (match-string 0 candidate)))
+;; 		  (recenter)))
+;; 	       ("Describe command" . describe-command)))
+;;    helm-source-ctags))

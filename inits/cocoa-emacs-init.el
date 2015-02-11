@@ -34,10 +34,20 @@
 (set-face-attribute 'variable-pitch nil
                     :family "Arial"
                     :height 130) ;; 130 markdown/org // 200
+;; ** initial frame-size,position
+(setq initial-frame-alist
+      (append (list
+	       '(width . 82)
+	       '(height . 55)
+	       '(top . 50)
+	       '(left . 500))
+	      initial-frame-alist))
+(setq default-frame-alist initial-frame-alist)
 
 ;; color
-(require 'color-theme)
+(require-package 'color-theme)
 (color-theme-initialize)
+(require 'color-theme-tango)
 (color-theme-tango)
 
 ;; transparency
@@ -85,19 +95,6 @@
 (defun ucs-normalize-NFC-buffer ()
   (interactive)
   (ucs-normalize-NFC-region (point-min) (point-max)))
-
-;; ever-mode
-(when (file-exists-p "~/dev/ever-mode")
-  (add-to-list 'load-path "~/dev/ever-mode")
-  (require 'ever-mode)
-  (defconst ever-rendered-dir "/Users/Altech/Documents/Dropbox/RNotes/")
-  (defun ever-open-rendered ()
-    (interactive)
-    (let ((this-file-name-sans-extension (file-name-sans-extension (file-name-nondirectory (buffer-file-name (current-buffer))))))
-      (string-match "^[^_]+" this-file-name-sans-extension)
-      (let ((path (concat ever-rendered-dir (match-string 0 this-file-name-sans-extension) ".html")))
-        (shell-command (concat "open " path)))))
-  (global-set-key (kbd "C-c p") 'ever-open-rendered))
 
 (require 'cl)
 (defun close-buffers-without-default ()

@@ -1,11 +1,8 @@
-;; for markdown
 (require-package 'markdown-mode)
 (require 'markdown-mode)
 (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
 (dolist (extension '("\\.mkd" "\\.md" "\\.markdown"))
   (setq auto-mode-alist (cons `(,extension . markdown-mode) auto-mode-alist)))
-
-(key-chord-define-global "ac" 'rgrep)
 
 (add-hook 'markdown-mode-hook
 	  (lambda ()
@@ -41,11 +38,11 @@
 
 (defun markdown-add-shallower-item ()
   (interactive)
-  (markdown-add-item-general 1))
+  (markdown-add-item-general -1))
 
 (defun markdown-add-deeper-item ()
   (interactive)
-  (markdown-add-item-general -1))
+  (markdown-add-item-general 1))
 
 (defun strip-text-properties (txt)
   (set-text-properties 0 (length txt) nil txt)

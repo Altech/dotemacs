@@ -1,6 +1,5 @@
 ;; perefix
-;; (global-unset-key (kbd "C-u")) ;; Utility
-(global-unset-key (kbd "M-u")) ;; Utility
+(global-unset-key (kbd "M-u")) ;; for utility
 ;; Find file from yank
 (global-set-key (kbd "C-x y") 'find-file-from-yank)
 ;; Save buffer
@@ -31,7 +30,7 @@
 (global-set-key (kbd "C-M-j") 'windmove-down)
 (global-set-key (kbd "C-M-l") 'windmove-right)
 (global-set-key (kbd "C-M-h") 'windmove-left)
-;; Frame change
+;; Frame change (cocoa)
 (global-set-key (kbd "M-'") 'other-frame)
 ;; Goto line
 (global-set-key (kbd "M-g") 'goto-line)
@@ -81,8 +80,6 @@
 (global-set-key (kbd "M-l M-p") 'git-gutter:previous-diff)
 ;; Hihglight
 (global-set-key (kbd "M-u M-u") 'highlight-symbol-at-point)
-;; GTD
-(global-set-key (kbd "<f7>") 'org-remember)
 ;; Utils
 (global-set-key (kbd "M-u M-y") 'paste-from-os-x)
 ;; Code Reading
@@ -97,8 +94,6 @@
 
 ;; Grep
 (key-chord-define-global "rg" 'rgrep)
-;; Evernote
-(key-chord-define-global (kbd "jf") 'ever-notes)
 
 (defun other-window-or-split ()
   (interactive)
@@ -151,7 +146,6 @@
   (if (not (use-region-p))
       (indent-region (point-min) (point-max) nil)
     (indent-region s e nil)))
-
 
 (defun paste-from-os-x ()
   (interactive)

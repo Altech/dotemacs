@@ -1,5 +1,3 @@
-(add-to-list 'load-path  "~/.emacs.d/org-mode/lisp")
-(setq load-path (cons "~/.emacs.d/org-mode/lisp" load-path))
 (require 'org)
 (defun org-insert-upheading (arg)
   "1レベル上の見出しを入力する。"
@@ -31,20 +29,6 @@ C-uをつけると1レベル上、C-u C-uをつけると1レベル下の見出�
 ;;; --や---をそのまま出力する
 (setq org-export-with-special-strings nil)
 
-;; (require 'org-install)
-;; (setq org-startup-truncated nil)
-;; (setq org-return-follows-link t)
-;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;; (org-remember-insinuate)
-;; (setq org-directory "~/Notes/")
-;; (setq org-default-notes-file (concat org-directory "何でもリスト.org"))
-;; (setq org-remember-templates
-;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
-;;         ))
-
-
 (defun org-open-help ()
   (interactive)
   (shell-command "open http://www.geocities.jp/km_pp1/org-mode/org-mode-document.html"))
@@ -64,10 +48,8 @@ C-uをつけると1レベル上、C-u C-uをつけると1レベル下の見出�
     ("\\paragraph{%s}" . "\\paragraph*{%s}")
     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
 ))
-;; (setq org-export-with-TeX-macros nil)
-;; (setq org-export-with-LaTeX-fragments nil)
 
-(setq org-export-latex-packages-alist nil); => nil
+(setq org-export-latex-packages-alist nil)
 
 ;; export PDF with convert.rb
 (add-to-list 'popwin:special-display-config '("*eshell*"))

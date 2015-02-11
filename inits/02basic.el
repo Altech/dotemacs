@@ -1,4 +1,4 @@
-;; trucate lines
+; trucate lines
 (defun toggle-truncate-lines ()
   (interactive)
   (if truncate-lines
@@ -18,13 +18,11 @@
 (setq truncate-partial-width-windows nil)
 ;; "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
-;; buffer switching
-(iswitchb-mode 1)
 ;; find file
 (require 'ido)
 (ido-mode t)
 ;; alarm sign from sound to vision
-;; (setq visible-bell t)
+(setq visible-bell t)
 ;; kill beep at error
 (setq ring-bell-function 'ignore)
 ;; delete region by backspace
@@ -49,3 +47,9 @@
 (require 'generic-x)
 ;; Indent
 (setq-default tab-width 8 indent-tabs-mode nil)
+;; Buffer Switching
+(iswitchb-mode 1)
+(setq iswitchb-buffer-ignore
+      '("^*magit"
+        "^*git-gutter"
+        "^*Minibuf-"))
