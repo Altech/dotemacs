@@ -9,7 +9,6 @@
 (require 'package)
 
 
-
 ;;; Add support to package.el for pre-filtering available packages
 
 (defvar package-filter-function nil
