@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: comment_fixme
-# key: fixme
-# --
-# [FIXME] ${1:comment}(`(format-time-string "%Y-%m-%d")`)

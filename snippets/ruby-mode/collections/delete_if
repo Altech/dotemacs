@@ -1,4 +1,0 @@
-# name: delete_if{|...| ... }
-# key: delete_if
-# --
-delete_if{|${element} $0 }

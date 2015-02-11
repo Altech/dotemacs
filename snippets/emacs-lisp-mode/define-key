@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: define-key
-# key: defkey
-# --
-(define-key ${1:global-map} (kbd "${2:C-f}") '${3:forward-char})

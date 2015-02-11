@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: comment_todo
-# key: td
-# --
-# [TODO] ${1:comment}(`(format-time-string "%Y-%m-%d")`)

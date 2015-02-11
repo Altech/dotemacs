@@ -1,4 +1,0 @@
-# name: all?{|...| ... }
-# key: all
-# --
-all?{|${element}| $0 }

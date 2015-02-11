@@ -1,6 +1,0 @@
-# name: times do |n| ... end
-# key: times
-# --
-times do |${n}|
-  $0
-end

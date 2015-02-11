@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: File.dirname(..)
-# key: File.dirname
-# --
-File.dirname(${1:__FILE__})

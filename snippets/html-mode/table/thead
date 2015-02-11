@@ -1,6 +1,0 @@
-# name: <thead>...</thead>
-# key: thead
-# --
-<thead$1>
-  $2
-</thead>

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: comment_review
-# key: rv
-# --
-# [REVIEW] ${1:comment}(`(format-time-string "%Y-%m-%d")`)

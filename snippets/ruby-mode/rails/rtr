@@ -1,3 +1,0 @@
-#name : render :text => " ... " and return
-# --
-render :text => "#{${Variable here...}}" and return

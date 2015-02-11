@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: thead
-# key: thead
-# --
-<thead${1:}>
-${2:content}
-</thead>

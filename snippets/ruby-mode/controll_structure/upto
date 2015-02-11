@@ -1,6 +1,0 @@
-# name: upto(...) do |n| ... end
-# key: upto
-# --
-upto(${n}) do |${i}|
-  $0
-end

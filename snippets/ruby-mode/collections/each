@@ -1,6 +1,0 @@
-# name: each do |i| ... end
-# key: each
-# --
-each do |${1:element}|
-  $2
-end

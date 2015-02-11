@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: File.open{|f| ... }
-# key: File.open
-# --
-File.open('${1:filename}','${2:mode}'){|f|
-  $3
-}
