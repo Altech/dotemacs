@@ -1,6 +1,6 @@
 (require-package 'anything)
 ;; (require-package 'helm)
-;; (require-package 'magit)
+(require-package 'magit)
 (add-to-list 'load-path "~/.emacs.d/lisp/magit")
 (require 'magit)
 (require-package 'git-gutter)
