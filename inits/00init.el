@@ -8,8 +8,6 @@
 (set-keyboard-coding-system 'utf-8)
 ;; garbage collection
 (setq gc-cons-threshold (* 4 1024 1024))
-;; load path
-(add-to-list 'load-path "~/.emacs.d")
 ;; exec path
 (defvar my-exec-path (list
 		      "/usr/sbin"
