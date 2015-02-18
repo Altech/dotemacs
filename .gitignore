@@ -1,6 +1,7 @@
 *.elc
 \#*
 .DS_Store
+ido.last
 
 ac-comphist.dat
 emacs.bmk
