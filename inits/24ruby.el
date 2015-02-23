@@ -74,7 +74,7 @@
 
 ;; ====================== Rails ====================
 
-;; removed
+(require-package 'haml-mode)
 
 ;; ====================== Gem ====================
 (defun gem-cd (gem)
