@@ -83,8 +83,8 @@
 ;; Utils
 (global-set-key (kbd "M-u M-y") 'paste-from-os-x)
 ;; Code Reading
-(global-set-key (kbd "C-;") 'helm-ctags-current-file)
-(global-set-key (kbd "M-.") 'helm-etags-select)
+;;(global-set-key (kbd "C-;") 'helm-ctags-current-file)
+;;(global-set-key (kbd "M-.") 'helm-etags-select)
 
 ;; Pressing simultaneously
 (require-package 'key-chord)

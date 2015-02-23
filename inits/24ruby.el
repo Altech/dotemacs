@@ -39,12 +39,13 @@
   (ruby-forward-sexp))
 
 ;; rdefsx
+(require-package 'back-button)
 (require 'rdefsx)
 (define-key ruby-mode-map (kbd "C-;") 'anything-rdefsx)
 (custom-set-variables `(rdefsx-command ,(expand-file-name "~/.emacs.d/bin/rdefsx")))
 (if tool-bar-mode
     (rdefsx-auto-update-mode 1))
-(setq rdefsx-ruby-command "/usr/local/bin/ruby")
+(setq rdefsx-ruby-command "/usr/bin/ruby")
 
 ;; ;; [TODO]
 ;; (defun helm-ruby ()
@@ -75,6 +76,9 @@
 ;; ====================== Rails ====================
 
 (require-package 'haml-mode)
+(add-hook 'haml-mode-hook
+          (lambda ()
+            (define-key haml-mode-map (kbd "M-.") 'anything-rdefsx-find-definition)))
 
 ;; ====================== Gem ====================
 (defun gem-cd (gem)
