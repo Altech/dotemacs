@@ -48,8 +48,14 @@
 ;; Indent
 (setq-default tab-width 8 indent-tabs-mode nil)
 ;; Buffer Switching
-(iswitchb-mode 1)
-(setq iswitchb-buffer-ignore
-      '("^*magit"
+(icomplete-mode 1)
+(setq ido-ignore-buffers
+      '(
+        "\\` "
+        "*Help*"
+        "*init log*"
+        "*anything apropos*"
+        "*grep*"
+        "^\*magit.+"
         "^*git-gutter"
-        "^*Minibuf-"))
+        ))

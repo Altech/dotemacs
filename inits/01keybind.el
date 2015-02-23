@@ -53,7 +53,7 @@
 (global-set-key (kbd "M-u M-r") 'query-replace)
 (global-set-key (kbd "M-u M-s") 'query-replace-regexp)
 ;; Switch buffer
-(global-set-key (kbd "C-b") 'iswitchb-buffer)
+(global-set-key (kbd "C-b") 'ido-switch-buffer)
 ;; Show buffer list which is easy to see
 (global-set-key (kbd "C-x C-b") 'bs-show)
 ;; Show buffer list

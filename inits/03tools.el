@@ -19,7 +19,8 @@
 ;; popwin
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
-(dolist (buffer-name '("*quickrun*"
+(dolist (buffer-name '("*Help*"
+                       "*quickrun*"
                        "*compilation*"
                        "*buffer-selection*"
                        "*git-gutter:diff*"
