@@ -54,7 +54,7 @@
 (defvar anything-c-rdefsx-find-definition-word nil)
 (defun anything-rdefsx-find-definition (&optional word)
   (interactive)
-  (setq anything-c-rdefsx-find-definition-word (or word (thing-at-point 'symbol)))
+  (setq anything-c-rdefsx-find-definition-word (or word (rdefsx-trim-ruby-symbol (thing-at-point 'symbol))))
   (anything :sources 'anything-c-source-rdefsx-find-definition
             :quit-if-no-candidate (lambda () (message "No definition"))
             :execute-action-at-once-if-one t))
@@ -132,5 +132,10 @@
 (define-key ruby-mode-map (kbd "M-.") 'anything-rdefsx-find-definition)
 (when (fboundp 'back-button-global-backward)
   (define-key ruby-mode-map (kbd "M-,") 'back-button-global-backward))
+
+(defun rdefsx-trim-ruby-symbol (symbol)
+  (if (string-match "^:\\(.+\\)" symbol)
+      (match-string 1 symbol)
+    symbol))
 
 (provide 'rdefsx)
