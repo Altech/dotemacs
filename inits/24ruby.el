@@ -3,7 +3,7 @@
   "Mode for editing ruby source files" t)
 
 ;; open ruby-mode
-(dolist (pattern '("\\.rb$" "Gemfile" "Rakefile"
+(dolist (pattern '("\\.rb$" "Gemfile" "Rakefile" "Guardfile"
                    "\\.rake$" "gemspec" "\\.pryrc"))
   (add-to-list 'auto-mode-alist `(,pattern . ruby-mode)))
 
