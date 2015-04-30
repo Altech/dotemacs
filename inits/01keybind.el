@@ -75,6 +75,7 @@
 (global-set-key (kbd "M-l M-s") 'magit-status)
 (global-set-key (kbd "M-l M-b") 'magit-branch-manager)
 (global-set-key (kbd "M-l M-l") 'magit-log)
+(global-set-key (kbd "M-l M-x") 'magit-blame-mode)
 (global-set-key (kbd "M-l M-d") 'altech:git-gutter:popup-hunk)
 (global-set-key (kbd "M-l M-n") 'git-gutter:next-diff)
 (global-set-key (kbd "M-l M-p") 'git-gutter:previous-diff)
