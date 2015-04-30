@@ -80,6 +80,8 @@
 (global-set-key (kbd "M-l M-p") 'git-gutter:previous-diff)
 ;; Hihglight
 (global-set-key (kbd "M-u M-u") 'highlight-symbol-at-point)
+;; Dash
+(global-set-key (kbd "M-/") 'dash-at-point)
 ;; Utils
 (global-set-key (kbd "M-u M-y") 'paste-from-os-x)
 ;; Code Reading

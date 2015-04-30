@@ -95,6 +95,9 @@
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
 
+;; dash
+(require-package 'dash-at-point)
+
 (defun altech:git-gutter:popup-hunk (&optional diffinfo)
   "popup current diff hunk"
   (interactive)
