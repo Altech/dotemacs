@@ -71,7 +71,12 @@
                (call-process shell-file-name nil 
                  t nil shell-command-switch command))))))
     (list return-code result)))
- 
+
+
+;; ====================== rbenv ====================
+(require-package 'rbenv)
+(global-rbenv-mode)
+
 
 ;; ====================== Rails ====================
 
@@ -84,21 +89,11 @@
 (defun gem-cd (gem)
   "Open a directory with the gem via Bundler."
   (interactive "sGem: ")
-  (find-file (gem-dir gem)))
+  (let ((dir (gem-dir gem)))
+    (if (file-exists-p dir)
+        (find-file dir)
+      (message (concat "No such directory: " dir)))))
 
 (defun gem-dir (gem)
-  (if (file-exists-p "Gemfile")
-      (let ((bundler-output (shell-command-to-string (concat "bundle show " gem))))
-        (if (string-match "^/" bundler-output) ;; file path?
-            (trim-string bundler-output)
-          nil))
-    (let ((gem-exists-p (string-equal "true" (trim-string (shell-command-to-string
-                                                           (concat "ruby -e 'print !Gem::Specification.find_all_by_name(\"" gem "\").empty?'"))))))
-      (if gem-exists-p
-          (trim-string (shell-command-to-string
-                        (concat "ruby -e 'print Gem::Specification.find_all_by_name(\"" gem "\").sort_by(&:version).first.full_gem_path'")))
-        nil))))
-
-(defvar major-gem-dir
-  (shell-command-to-string "ruby -e 'print Gem::Specification.find.to_a.map(&:full_gem_path).map{|path| File.dirname(path)}.inject(Hash.new(0)){|hash, a| hash[a] += 1; hash}.sort_by(&:last).last.first'")
-  "The directory which includes the most of rubygems")
+  (let ((ruby (shell-command-to-string "rbenv which ruby | ruby -e 'print $stdin.read.strip'")))
+    (shell-command-to-string (concat ruby " " (expand-file-name "~/.bin/gem-cd") " --print " gem))))
