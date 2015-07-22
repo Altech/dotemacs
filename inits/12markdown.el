@@ -8,9 +8,10 @@
 	  (lambda ()
 	    (local-set-key (kbd "M-p") 'backward-paragraph)
 	    (local-set-key (kbd "M-n") 'forward-paragraph)
-            (local-set-key (kbd "<C-return>") 'markdown-add-item)
-            (local-set-key (kbd "C-u <C-return>") 'markdown-add-deeper-item)
-            (local-set-key (kbd "C-u C-u <C-return>") 'markdown-add-shallower-item)
+        (local-set-key (kbd "<return>") 'newline)
+        (local-set-key (kbd "<C-return>") 'markdown-add-item)
+        (local-set-key (kbd "C-u <C-return>") 'markdown-add-deeper-item)
+        (local-set-key (kbd "C-u C-u <C-return>") 'markdown-add-shallower-item)
 	    ))
 
 ;; tunr off auto-complete-mode
