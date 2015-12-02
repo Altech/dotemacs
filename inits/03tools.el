@@ -33,6 +33,7 @@
 (require 'git-gutter)
 (global-git-gutter-mode 1)
 (setq git-gutter:verbosity 0)
+(setq magit-push-always-verify 1)
 
 ;; auto-complete
 (require 'auto-complete)
