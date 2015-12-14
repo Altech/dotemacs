@@ -30,6 +30,7 @@
 (push '("\*refe" :regexp t :position top) popwin:special-display-config) ;; [TODO]
 ;; git
 (require 'magit)
+(setq magit-push-always-verify nil)
 (require 'git-gutter)
 (global-git-gutter-mode 1)
 (setq git-gutter:verbosity 0)
