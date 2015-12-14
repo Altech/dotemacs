@@ -120,7 +120,7 @@
   (interactive)
   (if (string= (magit-get-current-branch) "master")
       (message "Don't push master to upstream!")
-    (magit-push-current (magit-get-current-branch) "origin")))
+    (magit-push-current (magit-get-current-branch) "origin" (magit-get-current-branch) "-u")))
 
 (defun altech:magit-pull-current-branch ()
   "git push <current buranch> origin <upstream>"
