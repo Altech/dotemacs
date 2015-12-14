@@ -77,6 +77,8 @@
 (global-set-key (kbd "M-l M-l") 'magit-log-current)
 (global-set-key (kbd "M-l M-x") 'magit-blame)
 (global-set-key (kbd "M-l M-c") 'magit-show-commit)
+(global-set-key (kbd "M-l M-f") 'altech:magit-push-current-branch)
+(global-set-key (kbd "M-l M-j") 'altech:magit-pull-current-branch)
 (global-set-key (kbd "M-l M-d") 'altech:git-gutter:popup-hunk)
 (global-set-key (kbd "M-l M-n") 'git-gutter:next-diff)
 (global-set-key (kbd "M-l M-p") 'git-gutter:previous-diff)

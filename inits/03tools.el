@@ -113,3 +113,15 @@
       (diff-mode)
       (pop-to-buffer (current-buffer))
       )))
+
+(defun altech:magit-push-current-branch ()
+  "git push <current buranch> origin <upstream>"
+  (interactive)
+  (if (string= (magit-get-current-branch) "master")
+      (message "Don't push master to upstream!")
+    (magit-push-current (magit-get-current-branch) "origin")))
+
+(defun altech:magit-pull-current-branch ()
+  "git push <current buranch> origin <upstream>"
+  (interactive)
+  (magit-pull-current (magit-get-current-branch) "origin"))
