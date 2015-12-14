@@ -31,6 +31,7 @@
 ;; git
 (require 'magit)
 (setq magit-push-always-verify nil)
+(setq git-commit-summary-max-length 100)
 (require 'git-gutter)
 (global-git-gutter-mode 1)
 (setq git-gutter:verbosity 0)
