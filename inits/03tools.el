@@ -126,3 +126,8 @@
   "git push <current buranch> origin <upstream>"
   (interactive)
   (magit-pull-current "origin" (magit-get-current-branch)))
+
+(defun altech:magit-checkout-master ()
+  "git checkout master"
+  (interactive)
+  (magit-checkout "master"))
