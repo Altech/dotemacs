@@ -125,4 +125,4 @@
 (defun altech:magit-pull-current-branch ()
   "git push <current buranch> origin <upstream>"
   (interactive)
-  (magit-pull-current (magit-get-current-branch) "origin"))
+  (magit-pull-current "origin" (magit-get-current-branch)))
