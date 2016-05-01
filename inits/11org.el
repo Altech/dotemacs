@@ -37,17 +37,20 @@ C-uをつけると1レベル上、C-u C-uをつけると1レベル下の見出�
 ;; Latex
 (require 'org-compat)
 (require 'org-list)
-(require 'org-latex)
-(add-to-list 'org-export-latex-classes
-  '("jreport"
-    "\\documentclass[a4j]{jreport}"
-    ("\\chapter{%s}" . "\\chapter*{%s}")
-    ("\\section{%s}" . "\\section*{%s}")
-    ("\\subsection{%s}" . "\\subsection*{%s}")
-    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
-))
+(require 'ox-latex)
+
+(require 'ox-latex)
+(unless (boundp 'org-latex-classes)
+  (setq org-latex-classes nil))
+(add-to-list 'org-latex-classes
+             '("jreport"
+               "\\documentclass[a4j]{jreport}"
+               ("\\chapter{%s}" . "\\chapter*{%s}")
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 (setq org-export-latex-packages-alist nil)
 
