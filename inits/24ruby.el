@@ -1,13 +1,15 @@
+(require-package 'enh-ruby-mode)
 (add-to-list 'load-path "~/.emacs.d/lisp/ruby/")
-(autoload 'ruby-mode "ruby-mode"
-  "Mode for editing ruby source files" t)
+;; (autoload 'ruby-mode "ruby-mode"
+;;   "Mode for editing ruby source files" t)
+
 
 ;; open ruby-mode
 (dolist (pattern '("\\.rb$" "Gemfile" "Rakefile" "Guardfile"
                    "\\.rake$" "gemspec" "\\.pryrc"))
-  (add-to-list 'auto-mode-alist `(,pattern . ruby-mode)))
+  (add-to-list 'auto-mode-alist `(,pattern . enh-ruby-mode)))
 
-(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+(setq interpreter-mode-alist (append '(("ruby" . enh-ruby-mode))
                                      interpreter-mode-alist))
 
 (defun insert-block-params ()
@@ -20,7 +22,8 @@
   (insert "{}")
   (forward-char -1))
 
-(add-hook 'ruby-mode-hook
+(setq enh-ruby-deep-indent-paren nil)
+(add-hook 'enh-ruby-mode-hook
           '(lambda ()
              ;; (inf-ruby-keys)
 	     (local-set-key (kbd "C-M-j") 'ruby-backward-sexp)
