@@ -23,6 +23,7 @@
   (forward-char -1))
 
 (setq enh-ruby-deep-indent-paren nil)
+(setq enh-ruby-add-encoding-comment-on-save nil)
 (add-hook 'enh-ruby-mode-hook
           '(lambda ()
              ;; (inf-ruby-keys)
