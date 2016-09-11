@@ -32,3 +32,7 @@
           (forward-line))
         (run-with-timer 0.5 nil '(lambda(ovl)
                                    (delete-overlay ovl)) ovl)))))
+
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+(flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
+(add-hook 'js2-jsx-mode-hook 'flycheck-mode)
