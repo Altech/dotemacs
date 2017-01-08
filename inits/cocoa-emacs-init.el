@@ -44,11 +44,19 @@
 	      initial-frame-alist))
 (setq default-frame-alist initial-frame-alist)
 
-;; color
-(require-package 'color-theme)
-(color-theme-initialize)
-(require 'color-theme-tango)
-(color-theme-tango)
+;; theme
+(defun programming-theme ()
+  (interactive)
+  (require-package 'color-theme)
+  (color-theme-initialize)
+  (require 'color-theme-tango)
+  (color-theme-tango))
+(defun writing-theme ()
+  (interactive)
+  (require 'bear-style)
+  (load-theme 'bear-style t)
+  (enable-theme 'bear-style))
+(programming-theme) ;; default
 
 ;; transparency
 (defun set-frame-transparent ()

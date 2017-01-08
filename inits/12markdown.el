@@ -13,6 +13,7 @@
             (local-set-key (kbd "C-u <C-return>") 'markdown-add-deeper-item)
             (local-set-key (kbd "C-u C-u <C-return>") 'markdown-add-shallower-item)
             (setq mode-line-format nil) ;; Hide mode-line
+            (show-paren-mode 0)
 	    ))
 
 ;; tunr off auto-complete-mode
