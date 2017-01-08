@@ -33,7 +33,7 @@
 	("-cdac$" . 1.0)))
 (set-face-attribute 'variable-pitch nil
                     :family "Arial"
-                    :height 130) ;; 130 markdown/org // 200
+                    :height 136) ;; 130 markdown/org // 200
 ;; ** initial frame-size,position
 (setq initial-frame-alist
       (append (list
@@ -61,7 +61,7 @@
 (defun set-japanese-text-style ()
   (interactive)
   (buffer-face-set 'variable-pitch)
-  (setq line-spacing 0.8) ;;0.4
+  (setq line-spacing 0.6)
   (setq truncate-lines nil))
 (dolist (mode-hook (list 'org-mode-hook 'markdown-mode-hook 'text-mode-hook))
   (add-hook mode-hook 'set-japanese-text-style))
