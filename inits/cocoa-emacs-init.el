@@ -56,7 +56,7 @@
   (require 'bear-style)
   (load-theme 'bear-style t)
   (enable-theme 'bear-style))
-(programming-theme) ;; default
+(programming-theme)
 
 ;; transparency
 (defun set-frame-transparent ()
