@@ -6,3 +6,5 @@
 	(dolist (ls (list (cons "&&" "∧") (cons "||" "∨") (cons "!" "¬") (cons "->" "→")))
 	      (goto-char (point-min))
 	      (replace-string (car ls) (cdr ls))))))
+
+(require 'es6-mode)
