@@ -9,6 +9,8 @@
                  (setq-default js2-basic-offset 2)
                  (local-set-key (kbd "M-j") 'backward-word)))
 
+(custom-set-variables '(js2-strict-trailing-comma-warning nil))
+
 (defun my-indent-sexp ()
   (interactive)
   (save-restriction
