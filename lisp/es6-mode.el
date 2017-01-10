@@ -1,6 +1,6 @@
 ;; Quickrun ES2016
 (define-derived-mode es6-mode
-  javascript-mode "es6"
+  js2-mode "es6"
   "Major mode for javascript(es6).
 \\{es6-mode-map}"
   (setq case-fold-search nil))
