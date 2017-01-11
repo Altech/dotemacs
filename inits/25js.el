@@ -1,4 +1,4 @@
-;; for JavaScript
+;; js2-mode
 (require-package 'js2-mode)
 (require 'js2-mode)
 
@@ -38,3 +38,6 @@
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
 (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
 (add-hook 'js2-jsx-mode-hook 'flycheck-mode)
+
+;; javascript-mode
+(setq js-indent-level 2) ;; used in json
