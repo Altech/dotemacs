@@ -59,3 +59,5 @@
         "^\*magit.+"
         "^*git-gutter"
         ))
+;; Highlight trailing whitespace
+(setq-default show-trailing-whitespace t)
