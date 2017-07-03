@@ -83,6 +83,8 @@
 (global-set-key (kbd "M-l M-d") 'altech:git-gutter:popup-hunk)
 (global-set-key (kbd "M-l M-n") 'git-gutter:next-diff)
 (global-set-key (kbd "M-l M-p") 'git-gutter:previous-diff)
+;; Github
+(global-set-key (kbd "M-l M-o") 'helm-open-github-from-file)
 ;; Hihglight
 (global-set-key (kbd "M-u M-u") 'highlight-symbol-at-point)
 ;; Dash
