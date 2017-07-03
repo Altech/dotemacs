@@ -8,6 +8,7 @@
 (require-package 'highlight-symbol)
 (require-package 'popwin)
 (require-package 'auto-complete)
+(require-package 'helm-open-github)
 
 ;; anything
 (require 'anything-startup)
@@ -36,6 +37,9 @@
 (global-git-gutter-mode 1)
 (setq git-gutter:verbosity 0)
 (setq magit-push-always-verify 1)
+
+;; github
+(require 'helm-open-github)
 
 ;; auto-complete
 (require 'auto-complete)
