@@ -135,3 +135,16 @@
   "git checkout master"
   (interactive)
   (magit-checkout "master"))
+
+;; mark of column width
+(require-package 'column-marker)
+(require 'column-marker)
+(if (eq window-system 'x) (progn
+  (defface my-face-folding '((t (:background "#444444"))) nil)
+  (defvar my-face-folding 'my-face-folding)
+) (progn
+  (defface my-face-folding '((t (:background "#dddddd"))) nil)
+  (defvar my-face-folding 'my-face-folding)
+))
+(column-marker-create column-marker-9 my-face-folding)
+(add-hook 'enh-ruby-mode-hook (lambda () (interactive) (column-marker-9 80)))
