@@ -1,0 +1,1 @@
+(require-package 'lua-mode)
