@@ -1,4 +1,4 @@
-(require-package 'enh-ruby-mode)
+(require 'enh-ruby-mode)
 (add-to-list 'load-path "~/.emacs.d/lisp/ruby/")
 ;; (autoload 'ruby-mode "ruby-mode"
 ;;   "Mode for editing ruby source files" t)
