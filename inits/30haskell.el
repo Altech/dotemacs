@@ -72,8 +72,6 @@
 ;; ghc-mod の設定のあとに書いた方がよいかもしれません
 (add-hook 'haskell-mode-hook
   (lambda()
-    (set (make-local-variable 'ac-auto-start) 1)
-    (set (make-local-variable 'ac-auto-show-menu) 0.05)
     (ghc-init)
     (flymake-mode 1)
     (define-key haskell-mode-map (kbd "C-M-q") 'anything-ghc-browse-document)
@@ -93,18 +91,6 @@
       (split-window (selected-window) nil t)
       (pop-to-buffer buf)
       )))
-
-
-;; https://github.com/m2ym/auto-complete
-(ac-define-source ghc-mod
-  '((depends ghc)
-    (candidates . (ghc-select-completion-symbol))
-    (symbol . "s")
-    (cache)))
-
-(defun my-ac-haskell-mode ()
-  (setq ac-sources '(ac-source-words-in-same-mode-buffers ac-source-dictionary ac-source-ghc-mod)))
-(add-hook 'haskell-mode-hook 'my-ac-haskell-mode)
 
 ;; ** my extension (open document and show type of functions) **
 

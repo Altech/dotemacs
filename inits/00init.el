@@ -20,7 +20,7 @@
   (when (and (file-exists-p dir) (not (member dir exec-path)))
     (setenv "PATH" (concat dir ":" (getenv "PATH")))
     (setq exec-path (append (list dir) exec-path))))
-(exec-path-from-shell-initialize)
+
 ;; scratch buffer
 (setq initial-buffer-choice t)
 (setq initial-scratch-message "# MEMO\n")

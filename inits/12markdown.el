@@ -16,13 +16,6 @@
             (show-paren-mode 0)
 	    ))
 
-;; tunr off auto-complete-mode
-(defadvice global-auto-complete-mode-enable-in-buffers (around my-centered-cursor-mode-turn-on-maybe)
-  (unless (eq 'markdown-mode major-mode)
-	  ad-do-it))
-
-(ad-activate 'global-auto-complete-mode-enable-in-buffers)
-
 (defun markdown-add-item-general (level)
   (let ((l (strip-text-properties (thing-at-point 'line))))
     (when (string-match "^\\(  \\)*- " l)

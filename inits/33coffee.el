@@ -9,5 +9,4 @@
 		 (set (make-local-variable 'tab-width) 2)
 		 (setq coffee-tab-width 2)
 		 (local-set-key (kbd "C-c b") 'coffee-compile-buffer)
-		 (auto-complete-mode t)
 		 ))
