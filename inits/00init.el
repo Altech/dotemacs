@@ -1,7 +1,7 @@
-;; ** Initilialize ** 
+;; ** Initilialize **
 ;; default lunguage and encoding
 (set-language-environment 'Japanese)
-;; default encoding:utf-8                                                                       
+;; default encoding:utf-8
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (prefer-coding-system 'utf-8-unix)
@@ -20,6 +20,7 @@
   (when (and (file-exists-p dir) (not (member dir exec-path)))
     (setenv "PATH" (concat dir ":" (getenv "PATH")))
     (setq exec-path (append (list dir) exec-path))))
+(exec-path-from-shell-initialize)
 ;; scratch buffer
 (setq initial-buffer-choice t)
 (setq initial-scratch-message "# MEMO\n")
