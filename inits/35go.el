@@ -13,6 +13,7 @@
                           (go-eldoc-setup)
                           ;; company
                           (set (make-local-variable 'company-backends) '(company-go))
+                          (setq gofmt-command "goimports")
                           (company-mode)
                           ))
 
