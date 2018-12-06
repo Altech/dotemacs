@@ -1,20 +1,16 @@
-(require-package 'anything)
-;; (require-package 'helm)
+(require-package 'helm)
 (require-package 'magit)
 (add-to-list 'load-path "~/.emacs.d/lisp/magit")
 (require 'magit)
 (require-package 'git-gutter)
-(require-package 'dropdown-list)
+;; (require-package 'dropdown-list)
 (require-package 'highlight-symbol)
 (require-package 'popwin)
 (require-package 'auto-complete)
 (require-package 'helm-open-github)
 
 ;; anything
-(require 'anything-startup)
 (setq migemo-isearch-min-length 2)
-(anything-read-string-mode 0) ;; for ido-mode [TODO]
-(require 'anything-match-plugin)
 ;; ;; helm
 ;; (require 'helm-config)
 ;; popwin
@@ -111,7 +107,6 @@
   (magit-checkout "master"))
 
 ;; mark of column width
-(require-package 'column-marker)
 (require 'column-marker)
 (if (eq window-system 'x) (progn
   (defface my-face-folding '((t (:background "#444444"))) nil)

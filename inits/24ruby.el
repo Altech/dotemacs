@@ -1,3 +1,4 @@
+(require 'ruby-mode)
 (require 'enh-ruby-mode)
 (add-to-list 'load-path "~/.emacs.d/lisp/ruby/")
 ;; (autoload 'ruby-mode "ruby-mode"
@@ -29,7 +30,7 @@
              ;; (inf-ruby-keys)
 	     (local-set-key (kbd "C-M-j") 'ruby-backward-sexp)
 	     (local-set-key (kbd "C-M-SPC") 'ruby-mark-sexp)
-	     (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
+	     ;; (local-set-key (kbd "C-m") 'ruby-reindent-then-newline-and-indent)
 	     (local-set-key (kbd "C-j") 'backward-char)
 	     (local-set-key (kbd "M-j") 'backward-word)
 	     (local-set-key (kbd "|") 'insert-block-params)
@@ -45,7 +46,7 @@
 ;; rdefsx
 (require-package 'back-button)
 (require 'rdefsx)
-(define-key ruby-mode-map (kbd "C-;") 'anything-rdefsx)
+;; (define-key ruby-mode-map (kbd "C-;") 'anything-rdefsx)
 (custom-set-variables `(rdefsx-command ,(expand-file-name "~/.emacs.d/bin/rdefsx")))
 (if tool-bar-mode
     (rdefsx-auto-update-mode 1))
@@ -101,3 +102,6 @@
 (defun gem-dir (gem)
   (let ((ruby (shell-command-to-string "rbenv which ruby | ruby -e 'print $stdin.read.strip'")))
     (shell-command-to-string (concat ruby " " (expand-file-name "~/.bin/gem-cd") " --print " gem))))
+
+;; (require-package 'dropdown-list)
+;; (require-package 'column-marker)

@@ -61,10 +61,7 @@
 ;; Remove mule toggle-input
 (global-unset-key (kbd "C-\\")) 
 ;; Anything
-(global-set-key (kbd "M-u M-y") 'anything-yasnippet-2) 
-(global-set-key (kbd "M-u y") 'anything-yasnippet-2) 
-(global-set-key (kbd "M-x") 'anything-M-x)
-(global-set-key (kbd "<f2>") 'anything-apropos)
+(global-set-key (kbd "M-x") 'helm-M-x)
 ;; Scroll
 (global-set-key (kbd "<wheel-up>") 'scroll-down-with-lines)
 (global-set-key (kbd "<wheel-down>") 'scroll-up-with-lines)
