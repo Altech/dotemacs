@@ -108,3 +108,7 @@
 (defun look-up-current-word-in-dictionary-app ()
   (interactive)
   (browse-url (concat "dict://" (current-word))))
+
+
+(switch-to-buffer "*scratch*")
+(setq default-directory "~/src/github.com")
