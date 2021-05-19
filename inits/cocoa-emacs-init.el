@@ -111,4 +111,4 @@
 
 
 (switch-to-buffer "*scratch*")
-(setq default-directory "~/src/github.com")
+(setq default-directory "~/src/github.com/Altech")
