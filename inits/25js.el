@@ -41,3 +41,7 @@
 
 ;; javascript-mode
 (setq js-indent-level 2) ;; used in json
+
+;;; TypeScript
+(require-package 'typescript-mode)
+(require 'typescript-mode)
